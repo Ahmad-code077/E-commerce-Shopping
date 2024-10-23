@@ -1,11 +1,21 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import { Contact, Home, Page, Shop } from '../pages';
+import {
+  Cart,
+  Contact,
+  Home,
+  Login,
+  Page,
+  SearchProduct,
+  Shop,
+} from '../pages';
+// import { Categories } from '../components';
 
 const route = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+
     children: [
       {
         path: '/',
@@ -23,7 +33,23 @@ const route = createBrowserRouter([
         path: '/contact',
         element: <Contact />,
       },
+      {
+        path: '/cart',
+        element: <Cart />,
+      },
+      {
+        path: '/search',
+        element: <SearchProduct />,
+      },
+      // {
+      //   path: '/categories/:id',
+      //   element: <Categories />,
+      // },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]);
 

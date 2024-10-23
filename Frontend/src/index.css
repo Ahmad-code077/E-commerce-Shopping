@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media screen and (min-width: 768px) {
+  .link {
+    border-radius: 100% 0% 60% 40% / 61% 100% 0% 39%;
+  }
+}

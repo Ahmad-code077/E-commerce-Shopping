@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaCartPlus, FaSearch, FaServer, FaUser } from 'react-icons/fa';
+import { FaCartPlus, FaSearch, FaUser } from 'react-icons/fa';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -9,18 +9,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='bg-white border-gray-200 dark:bg-gray-900'>
-      <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
+    <nav className='bg-white border-gray-200 dark:bg-secondary'>
+      <div className='max-w-6xl  px-4 lg:px-12  flex flex-wrap items-center justify-between mx-auto p-4'>
         <Link
           to='/'
           className='flex items-center space-x-3 rtl:space-x-reverse'
         >
-          {/* <img
-            src='https://flowbite.com/docs/images/logo.svg'
-            className='h-8'
-            alt='Flowbite Logo'
-          /> */}
-          <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white hover:text-blue-500'>
+          <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white hover:text-darkCharcoal'>
             Ahmad
           </span>
         </Link>
@@ -51,11 +46,11 @@ const Navbar = () => {
           className={`${isOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`}
           id='navbar-default'
         >
-          <ul className='font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
+          <ul className='font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  dark:border-gray-700'>
             <li>
               <Link
                 to='/'
-                className='block py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white hover:text-blue-500'
+                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white  hover:text-darkCharcoal'
               >
                 Home
               </Link>
@@ -63,7 +58,7 @@ const Navbar = () => {
             <li>
               <Link
                 to='/shop'
-                className='block py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white hover:text-blue-500'
+                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white hover:text-darkCharcoal '
               >
                 Shop
               </Link>
@@ -71,7 +66,7 @@ const Navbar = () => {
             <li>
               <Link
                 to='/pages'
-                className='block py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white hover:text-blue-500'
+                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white hover:text-darkCharcoal'
               >
                 Pages
               </Link>
@@ -79,7 +74,8 @@ const Navbar = () => {
             <li>
               <Link
                 to='/contact'
-                className='block py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white  hover:text-blue-500 '
+                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white 
+                hover:text-darkCharcoal'
               >
                 Contact
               </Link>
@@ -87,34 +83,43 @@ const Navbar = () => {
             <div className='flex justify-between md:hidden'>
               {' '}
               <li>
-                <button className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-blue-500'>
+                <Link
+                  to='/search'
+                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
+                >
                   <FaSearch /> <span>Search</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-blue-500'>
+                <Link
+                  to='/cart'
+                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
+                >
                   <FaCartPlus /> <span>Cart</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-blue-500'>
-                  <FaUser /> <span>user</span>
-                </button>
+                <Link
+                  to='/login'
+                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
+                >
+                  <FaUser /> <span>Login</span>
+                </Link>
               </li>
             </div>
           </ul>
         </div>
         <div className='text-white font-semibold  gap-4 text-2xl hidden md:flex '>
-          <button className='hover:text-blue-500'>
+          <Link to={'/search'} className='hover:text-darkCharcoal'>
             {' '}
             <FaSearch />
-          </button>
-          <button className='hover:text-blue-500'>
+          </Link>
+          <Link to={'/cart'} className='hover:text-darkCharcoal'>
             <FaCartPlus />
-          </button>
-          <button className='hover:text-blue-500'>
+          </Link>
+          <Link to={'/login'} className='hover:text-darkCharcoal'>
             <FaUser />
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

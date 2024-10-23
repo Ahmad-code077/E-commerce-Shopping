@@ -1,4 +1,9 @@
 export { default as Page } from './Page';
 export { default as Shop } from './Shop';
 export { default as Contact } from './Contact';
-export { default as  Home} from './Home';
+export { default as Home } from './Home';
+export { default as Login } from './Login';
+export { default as SearchProduct } from './SearchProduct';
+export { default as Cart } from './Cart';
+export { default as Trending } from './Shops/Trending';
+export { default as Products } from './Shops/Products';

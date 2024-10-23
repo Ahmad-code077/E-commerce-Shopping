@@ -1,4 +1,26 @@
+import {
+  Banner,
+  Blogs,
+  Cards,
+  Categories,
+  Deals,
+  FaithCards,
+  Footer,
+} from '../components';
+import Trending from './Shops/Trending';
+
 const Home = () => {
-  return <div className=''>Home</div>;
+  return (
+    <div className=''>
+      <Banner />
+      <Categories />
+      <Cards />
+      <Trending />
+      <Deals />
+      <FaithCards />
+      <Blogs />
+      <Footer />
+    </div>
+  );
 };
 export default Home;

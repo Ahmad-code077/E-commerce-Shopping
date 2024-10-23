@@ -3,11 +3,10 @@ import { Navbar } from './components';
 
 const App = () => {
   return (
-    <div className=''>
+    <div>
       <Navbar />
-      <div className='max-w-6xl mx-auto px-4 lg:px-12 mt-16 '>
+      <div className='max-w-6xl mx-auto px-4 lg:px-12  '>
         <Outlet />
-        <h1>App jsx</h1>
       </div>
     </div>
   );

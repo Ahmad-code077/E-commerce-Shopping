@@ -1,1 +1,10 @@
 export { default as Navbar } from './Navbar';
+export { default as Banner } from './Banner';
+export { default as Categories } from './Categories';
+export { default as Cards } from './Cards';
+export { default as Rating } from './Rating';
+export { default as LazyImage } from './LazyImage';
+export { default as Deals } from './Deals';
+export { default as FaithCards } from './FaithCards';
+export { default as Blogs } from './Blogs';
+export { default as Footer } from './Footer';
