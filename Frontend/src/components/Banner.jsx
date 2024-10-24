@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import img from '../assets/images/category-1.jpg';
 const Banner = () => {
   return (
@@ -9,9 +10,12 @@ const Banner = () => {
         <p className='text-lg md:text-xl text-darkCharcoal font-semibold'>
           Because men do not buy clothes online 😂
         </p>
-        <button className='bg-primary text-white py-3 px-8 rounded-md text-lg font-semibold hover:bg-primary-dark transition duration-300 ease-in-out'>
+        <Link
+          to={'/shop'}
+          className='bg-primary text-white py-3 px-8 rounded-md text-lg font-semibold hover:bg-primary-dark transition duration-300 ease-in-out block w-max'
+        >
           Shop Now
-        </button>
+        </Link>
       </div>
       <div className='absolute inset-0 md:relative md:w-1/2 flex justify-center items-center '>
         <img

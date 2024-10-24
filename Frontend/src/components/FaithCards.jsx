@@ -34,7 +34,7 @@ const FaithCards = () => {
           >
             <span className='text-4xl text-primary font-bold'>{icon}</span>
             <h1 className='text-2xl font-semibold'>{heading}</h1>
-            <p className='text-lg text-gray-600'>{para}</p>
+            <p className='text-lg text-text-light'>{para}</p>
           </div>
         );
       })}

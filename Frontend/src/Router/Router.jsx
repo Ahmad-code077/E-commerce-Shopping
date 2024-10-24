@@ -8,8 +8,8 @@ import {
   Page,
   SearchProduct,
   Shop,
+  SingleCategory,
 } from '../pages';
-// import { Categories } from '../components';
 
 const route = createBrowserRouter([
   {
@@ -41,10 +41,10 @@ const route = createBrowserRouter([
         path: '/search',
         element: <SearchProduct />,
       },
-      // {
-      //   path: '/categories/:id',
-      //   element: <Categories />,
-      // },
+      {
+        path: '/categories/:category',
+        element: <SingleCategory />,
+      },
     ],
   },
   {

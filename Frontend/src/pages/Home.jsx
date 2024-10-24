@@ -19,7 +19,6 @@ const Home = () => {
       <Deals />
       <FaithCards />
       <Blogs />
-      <Footer />
     </div>
   );
 };

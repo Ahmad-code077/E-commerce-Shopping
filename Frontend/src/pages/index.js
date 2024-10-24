@@ -7,3 +7,4 @@ export { default as SearchProduct } from './SearchProduct';
 export { default as Cart } from './Cart';
 export { default as Trending } from './Shops/Trending';
 export { default as Products } from './Shops/Products';
+export { default as SingleCategory } from './SingleCategory';
