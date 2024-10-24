@@ -5,7 +5,6 @@ import {
   Categories,
   Deals,
   FaithCards,
-  Footer,
 } from '../components';
 import Trending from './Shops/Trending';
 

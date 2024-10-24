@@ -110,7 +110,7 @@ const Footer = () => {
         })}
       </main>
       <main className='flex flex-col gap-4 '>
-        <h1 className='text-xl font-bold mx-auto my-4'>Company</h1>
+        <h1 className='text-xl font-bold  my-4'>Company</h1>
         {Link.map(({ id, linkText }) => {
           return (
             <a

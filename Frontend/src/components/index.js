@@ -9,3 +9,4 @@ export { default as FaithCards } from './FaithCards';
 export { default as Blogs } from './Blogs';
 export { default as Footer } from './Footer';
 export { default as ShopSidebar } from './ShopSidebar';
+export { default as SingleShopPage } from './SingleShopPage';

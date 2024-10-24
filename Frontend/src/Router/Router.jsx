@@ -10,6 +10,7 @@ import {
   Shop,
   SingleCategory,
 } from '../pages';
+import { SingleShopPage } from '../components';
 
 const route = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const route = createBrowserRouter([
       {
         path: '/shop',
         element: <Shop />,
+      },
+      {
+        path: '/shop/:id',
+        element: <SingleShopPage />,
       },
       {
         path: '/pages',
