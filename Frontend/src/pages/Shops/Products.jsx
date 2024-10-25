@@ -1,8 +1,15 @@
 import { FaCartPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { LazyImage, Rating } from '../../components';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../Redux/Features/CartSlice';
 
 const Products = ({ product = [] }) => {
+  const dispatch = useDispatch();
+  const handleAddCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <section className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
       {product.map((item) => {
@@ -16,7 +23,13 @@ const Products = ({ product = [] }) => {
               <Link to={`/shop/${id}`} className='block'>
                 <LazyImage src={image} alt={name} />
               </Link>
-              <button className='absolute top-2 right-2 bg-white text-primary p-2 rounded-full shadow hover:scale-105 transition'>
+              <button
+                className='absolute top-2 right-2 bg-white text-primary p-2 rounded-full shadow hover:scale-105 transition'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddCart(item);
+                }}
+              >
                 <FaCartPlus className='text-xl' />
               </button>
             </div>

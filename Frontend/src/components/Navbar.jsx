@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaCartPlus, FaSearch, FaUser } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
+
+  const [openCart, setOpenCart] = useState(false);
+  const handleCart = () => {
+    setOpenCart(!openCart);
+  };
+  const { cartItem } = useSelector((state) => state.cart);
+  console.log(cartItem);
 
   return (
     <nav className='bg-white border-gray-200 dark:bg-secondary'>
@@ -91,12 +99,15 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to='/cart'
-                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
+                <div
+                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal relative cursor-pointer'
+                  onClick={handleCart}
                 >
                   <FaCartPlus /> <span>Cart</span>
-                </Link>
+                  <span className='absolute -top-2 -right-1 text-primary rounded-full h-6 w-6 text-base text-center bg-white '>
+                    {cartItem.length}
+                  </span>
+                </div>
               </li>
               <li>
                 <Link
@@ -114,14 +125,24 @@ const Navbar = () => {
             {' '}
             <FaSearch />
           </Link>
-          <Link to={'/cart'} className='hover:text-darkCharcoal'>
+          <div
+            className='hover:text-darkCharcoal relative cursor-pointer'
+            onClick={handleCart}
+          >
             <FaCartPlus />
-          </Link>
+            <span className='absolute -top-5 -right-3 text-primary rounded-full h-6 w-6 text-base text-center bg-white '>
+              {cartItem.length}
+            </span>
+          </div>
           <Link to={'/login'} className='hover:text-darkCharcoal'>
             <FaUser />
           </Link>
         </div>
       </div>
+
+      {openCart && (
+        <section className='absolute z-50'>Hello world from cart</section>
+      )}
     </nav>
   );
 };
