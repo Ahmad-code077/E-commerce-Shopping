@@ -15,7 +15,6 @@ const Navbar = () => {
     setOpenCart(!openCart);
   };
   const { cartItem } = useSelector((state) => state.cart);
-  console.log(cartItem);
 
   return (
     <nav className='bg-white border-gray-200 dark:bg-secondary'>

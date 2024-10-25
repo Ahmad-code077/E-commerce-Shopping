@@ -8,9 +8,9 @@ import { useEffect } from 'react';
 const SingleShopPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  console.log(id);
+  // console.log(id);
   const singleProduct = products.find((item) => item.id === Number(id));
-  console.log(singleProduct);
+  // console.log(singleProduct);
   const { name, price, category, color, oldPrice, image, description, rating } =
     singleProduct;
   const handleAddCart = (product) => {

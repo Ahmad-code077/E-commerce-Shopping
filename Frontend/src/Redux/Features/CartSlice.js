@@ -28,6 +28,50 @@ export const CartSlice = createSlice({
       state.tax = calculateTax(state); // Calculate tax
       state.grandTotal = setGrandTotal(state);
     },
+    updateQuantity: (state, action) => {
+      state.cartItem = state.cartItem.map((product) => {
+        if (product.id === action.payload.id) {
+          let updatedQuantity;
+
+          // Determine the new quantity based on the action type
+          if (action.payload.type === 'increment') {
+            updatedQuantity = product.quantity + 1;
+          } else if (action.payload.type === 'decrement') {
+            updatedQuantity = product.quantity > 1 ? product.quantity - 1 : 1; // Prevent quantity from going below 1
+          }
+
+          // Return a new product object with the updated quantity
+          return {
+            ...product,
+            quantity: updatedQuantity,
+          };
+        }
+
+        // Return the unchanged product
+        return product;
+      });
+      state.selectedItems = setSelectedItems(state);
+      state.totalPrice = setTotalPrice(state);
+      state.tax = calculateTax(state);
+      state.grandTotal = setGrandTotal(state);
+    },
+    removeToCart: (state, action) => {
+      state.cartItem = state.cartItem.filter((product) => {
+        return product.id !== action.payload;
+      });
+      state.selectedItems = setSelectedItems(state);
+      state.totalPrice = setTotalPrice(state);
+      state.tax = calculateTax(state);
+      state.grandTotal = setGrandTotal(state);
+    },
+    clearCart: (state) => {
+      state.cartItem = [];
+      state.selectedItems = 0;
+      state.totalPrice = 0;
+      state.tax = 0;
+      state.taxRate = 0.05;
+      state.grandTotal = 0;
+    },
   },
 });
 
@@ -51,6 +95,7 @@ export const setGrandTotal = (state) => {
   return setTotalPrice(state) + setTotalPrice(state) * state.taxRate;
 };
 
-export const { addToCart } = CartSlice.actions;
+export const { addToCart, updateQuantity, removeToCart, clearCart } =
+  CartSlice.actions;
 
 export default CartSlice.reducer;

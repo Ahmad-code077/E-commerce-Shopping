@@ -9,6 +9,15 @@ import { Provider } from 'react-redux';
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <RouterProvider router={route} />
-    <ToastContainer />
+    <ToastContainer
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
   </Provider>
 );
