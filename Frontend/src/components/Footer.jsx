@@ -128,8 +128,6 @@ const Footer = () => {
         {UseFulLinks.map(({ id, linkText }) => {
           return (
             <div key={id} className='flex items-center gap-4 '>
-              {/* <span className='text-primary text-xl'>{icon}</span> */}
-              {/* <a className='text-gray-600 font-semibold'>{linkText}</a> */}
               <a
                 href='#'
                 className='text-gray-600 font-semibold hover:text-primary'

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaCartPlus, FaSearch, FaUser } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import CartSidebar from './CartSidebar';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -141,7 +142,9 @@ const Navbar = () => {
       </div>
 
       {openCart && (
-        <section className='absolute z-50'>Hello world from cart</section>
+        <section className='absolute z-50'>
+          <CartSidebar handleCart={handleCart} openCart={openCart} />
+        </section>
       )}
     </nav>
   );
