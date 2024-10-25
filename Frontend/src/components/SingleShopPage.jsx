@@ -2,22 +2,25 @@ import { Link, useParams } from 'react-router-dom';
 import products from '../data/products.json';
 import { FaGreaterThan } from 'react-icons/fa';
 import Rating from './Rating';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../Redux/Features/CartSlice';
+import { useEffect } from 'react';
 const SingleShopPage = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   console.log(id);
   const singleProduct = products.find((item) => item.id === Number(id));
   console.log(singleProduct);
-  const {
-    id: productId,
-    name,
-    price,
-    category,
-    color,
-    oldPrice,
-    image,
-    description,
-    rating,
-  } = singleProduct;
+  const { name, price, category, color, oldPrice, image, description, rating } =
+    singleProduct;
+  const handleAddCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <section>
       <main className='text-center max-w-lg mx-auto'>
@@ -70,7 +73,13 @@ const SingleShopPage = () => {
           <div className='flex text-lg font-bold items-center gap-6'>
             Ratings : <Rating rating={rating} />
           </div>
-          <button className='bg-primary text-white py-1 px-4 rounded-md text-lg font-semibold hover:bg-primary-dark transition duration-300 ease-in-out mt-4 '>
+          <button
+            className='bg-primary text-white py-1 px-4 rounded-md text-lg font-semibold hover:bg-primary-dark transition duration-300 ease-in-out mt-4 '
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddCart(singleProduct);
+            }}
+          >
             Add to Cart
           </button>
         </div>
