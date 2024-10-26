@@ -6,6 +6,7 @@ import {
   Home,
   Login,
   Page,
+  Register,
   SearchProduct,
   Shop,
   SingleCategory,
@@ -55,6 +56,10 @@ const route = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
   },
 ]);
 
