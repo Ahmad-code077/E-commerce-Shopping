@@ -1,25 +1,29 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLoginUserMutation } from '../Redux/Features/auth/authapi';
+import { toast } from 'react-toastify';
 
 const Login = () => {
-  // const navigate = useNavigate();
+  const [error, setError] = useState({ emailError: '', passwordError: '' });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
 
-  const [error, setError] = useState({ nameError: '', passwordError: '' });
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newErrors = { nameError: '', passwordError: '' };
+    const newErrors = { emailError: '', passwordError: '' };
     const myData = new FormData(e.target);
     const payLoad = Object.fromEntries(myData);
 
-    if (!payLoad.userName.trim()) {
-      newErrors.nameError = 'Username is required.';
-    } else if (!/(?=.*[A-Z])(?=.*[a-z])(?=.*[1-9])/.test(payLoad.userName)) {
-      newErrors.nameError =
-        'Username must contain at least one uppercase letter, one lowercase letter, and one number.';
+    if (!payLoad.email.trim()) {
+      newErrors.emailError = 'Email is required.';
+    } else if (!/\S+@\S+\.\S+/.test(payLoad.email)) {
+      newErrors.emailError = 'Email address is invalid.';
     }
 
+    // Password validation
     if (!payLoad.password.trim()) {
       newErrors.passwordError = 'Password is required.';
     } else if (
@@ -27,11 +31,21 @@ const Login = () => {
       !/[!@#$%^&*]/.test(payLoad.password)
     ) {
       newErrors.passwordError =
-        'Password must contain 8 characters and one special character.';
+        'Password must contain at least 8 characters and one special character.';
     }
 
     setError(newErrors);
-    // conditions here
+
+    if (!newErrors.emailError && !newErrors.passwordError) {
+      console.log('Login successful:', payLoad);
+      try {
+        const response = await loginUser(payLoad).unwrap();
+        toast.success(response?.message);
+        navigate('/');
+      } catch (error) {
+        toast.error(error?.data?.message);
+      }
+    }
   };
 
   return (
@@ -40,18 +54,18 @@ const Login = () => {
         <h1 className='text-3xl text-center mb-4 font-bold'>Login Form</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div>
-            <label htmlFor='userName'>
-              {error.nameError ? (
-                <p className='text-red-500'>{error.nameError}</p>
+            <label htmlFor='email'>
+              {error.emailError ? (
+                <p className='text-red-500'>{error.emailError}</p>
               ) : (
-                'Username'
+                'Email' // Updated label to Email
               )}
             </label>
             <input
-              type='text'
-              name='userName'
-              id='userName'
-              placeholder='Username'
+              type='email' // Change type to 'email'
+              name='email' // Updated name to 'email'
+              id='email' // Updated id to 'email'
+              placeholder='Email'
               className='flex items-center gap-2 justify-center mt-4 outline-1 rounded-md p-2 w-full text-xl border border-[#9C8F98] text-black'
             />
           </div>
@@ -74,6 +88,7 @@ const Login = () => {
           <div>
             <button
               type='submit'
+              disabled={isLoading}
               className='flex items-center gap-2 justify-center bg-primary rounded-md p-2 w-full text-white text-xl'
             >
               Submit

@@ -1,33 +1,37 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useRegisterUserMutation } from '../Redux/Features/auth/authapi';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const navigate = useNavigate();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   const [error, setError] = useState({
     nameError: '',
-    phoneError: '',
+    emailError: '', // Updated to emailError
     passwordError: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newErrors = { nameError: '', phoneError: '', passwordError: '' };
+    const newErrors = { nameError: '', emailError: '', passwordError: '' }; // Updated to emailError
     const myData = new FormData(e.target);
     const payLoad = Object.fromEntries(myData);
-
-    if (!payLoad.userName.trim()) {
+    // Username validation
+    if (!payLoad.username.trim()) {
       newErrors.nameError = 'Username is required.';
-    } else if (!/(?=.*[A-Z])(?=.*[a-z])(?=.*[1-9])/.test(payLoad.userName)) {
-      newErrors.nameError =
-        'Username must contain at least one uppercase letter, one lowercase letter, and one number.';
+    }
+    // Email validation
+    if (!payLoad.email.trim()) {
+      newErrors.emailError = 'Email is required.'; // Updated to check for email
+    } else if (!/\S+@\S+\.\S+/.test(payLoad.email)) {
+      // Basic email format validation
+      newErrors.emailError = 'Email address is invalid.';
     }
 
-    if (!payLoad['Phone Number'].trim()) {
-      newErrors.phoneError = 'Phone number is required.';
-    }
-
+    // Password validation
     if (!payLoad.password.trim()) {
       newErrors.passwordError = 'Password is required.';
     } else if (
@@ -40,13 +44,21 @@ const Register = () => {
 
     setError(newErrors);
 
+    // If no errors, navigate or perform any action
     if (
       !newErrors.nameError &&
-      !newErrors.phoneError &&
+      !newErrors.emailError && // Updated to check for emailError
       !newErrors.passwordError
     ) {
-      console.log(payLoad);
-      navigate('/');
+      try {
+        console.log(payLoad);
+        const res = await registerUser(payLoad).unwrap();
+        toast.success(res?.message);
+        navigate('/login');
+      } catch (error) {
+        toast.error(error?.data?.message);
+      }
+      // navigate('/'); // Navigate to home or desired route
     }
   };
 
@@ -65,25 +77,25 @@ const Register = () => {
             </label>
             <input
               type='text'
-              name='userName'
-              id='userName'
+              name='username'
+              id='username'
               placeholder='Username'
               className='flex items-center gap-2 justify-center mt-4 outline-1 rounded-md p-2 w-full text-xl border border-[#9C8F98] text-black'
             />
           </div>
           <div>
-            <label htmlFor='Phone Number'>
-              {error.phoneError ? (
-                <p className='text-red-500'>{error.phoneError}</p>
+            <label htmlFor='email'>
+              {error.emailError ? ( // Updated to check for emailError
+                <p className='text-red-500'>{error.emailError}</p>
               ) : (
-                'Phone Number'
+                'Email' // Updated label to Email
               )}
             </label>
             <input
-              type='tel'
-              name='Phone Number'
-              id='Phone Number'
-              placeholder='Phone Number'
+              type='email' // Change type to 'email'
+              name='email' // Updated name to 'email'
+              id='email' // Updated id to 'email'
+              placeholder='Email'
               className='flex items-center gap-2 justify-center mt-4 outline-1 rounded-md p-2 w-full text-xl border border-[#9C8F98] text-black'
             />
           </div>

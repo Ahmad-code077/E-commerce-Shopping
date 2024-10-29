@@ -6,16 +6,16 @@ const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
 
-    console.log(token);
+    // console.log(token);
     if (!token) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: 'Not Authenticated',
       });
     }
     const decode = jwt.verify(token, JWT_SECRET_KEY);
     if (!decode) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: 'Not Authenticated',
       });

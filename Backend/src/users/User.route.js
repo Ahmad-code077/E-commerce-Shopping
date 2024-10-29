@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
     const existUser = await User.findOne({ email });
     // console.log(existUser);
     if (!existUser) {
-      res.status(404).json({
+      return res.status(400).json({
         status: false,
         message: 'User not found',
       });
@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
       });
     }
     const token = await generateToken(existUser.id);
-    console.log(token);
+
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
@@ -80,11 +80,11 @@ router.post('/login', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Login failed due to an issue',
-      error: error.message,
     });
   }
 });
 
+//  logout
 router.post('/logout', async (req, res) => {
   try {
     // Clear the specific cookie by name, e.g., 'token'
@@ -103,6 +103,7 @@ router.post('/logout', async (req, res) => {
   }
 });
 
+// delete
 router.delete('/delete/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -127,6 +128,7 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
+// Get all users
 router.get('/getusers', async (req, res) => {
   try {
     const getAllUsers = await User.find({}, 'id email role').sort({
@@ -145,4 +147,73 @@ router.get('/getusers', async (req, res) => {
     });
   }
 });
+
+// Update users
+
+router.put('/update/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+    console.log(id, role);
+    const user = await User.findByIdAndUpdate(id, { role }, { new: true });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'User updated Successfully',
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error while updating user',
+      error: error.message,
+    });
+  }
+});
+
+// Edit Profile
+router.patch('/edit-profile', async (req, res) => {
+  try {
+    const { userId, ...updateData } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'UserId is not defined',
+      });
+    }
+
+    // Find and update the user with only the provided fields
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error while Editing Profile',
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;
