@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../Redux/Features/auth/authapi';
 import { toast } from 'react-toastify';
+import { setUser } from '../Redux/Features/auth/authSlice';
 
 const Login = () => {
   const [error, setError] = useState({ emailError: '', passwordError: '' });
@@ -37,10 +38,12 @@ const Login = () => {
     setError(newErrors);
 
     if (!newErrors.emailError && !newErrors.passwordError) {
-      console.log('Login successful:', payLoad);
       try {
         const response = await loginUser(payLoad).unwrap();
         toast.success(response?.message);
+        // console.log(response);
+        const { user } = response;
+        dispatch(setUser({ user }));
         navigate('/');
       } catch (error) {
         toast.error(error?.data?.message);

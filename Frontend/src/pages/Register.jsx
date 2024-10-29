@@ -51,7 +51,6 @@ const Register = () => {
       !newErrors.passwordError
     ) {
       try {
-        console.log(payLoad);
         const res = await registerUser(payLoad).unwrap();
         toast.success(res?.message);
         navigate('/login');
