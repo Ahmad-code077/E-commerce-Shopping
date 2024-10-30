@@ -22,7 +22,10 @@ app.use(
 );
 
 const authRoute = require('./src/users/User.route.js');
+const productRoute = require('./src/Products/productRoute.js');
+
 app.use('/api/auth', authRoute);
+app.use('/api/products', productRoute);
 
 // Database connection
 async function main() {
