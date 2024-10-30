@@ -7,6 +7,7 @@ const authApi = createApi({
     baseUrl: `${getBaseUrl()}/api/auth`,
     credentials: 'include',
   }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (newUser) => ({
@@ -22,8 +23,51 @@ const authApi = createApi({
         body: credentials,
       }),
     }),
+    logoutUser: builder.mutation({
+      query: () => ({
+        url: '/logout',
+        method: 'Post',
+      }),
+    }),
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `/delete/${userId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    getAllUser: builder.mutation({
+      query: () => ({
+        url: '/getusers',
+        method: 'GET',
+      }),
+      refetchOnMount: true,
+      invalidatesTags: ['User'],
+    }),
+    updateUserRole: builder.mutation({
+      query: ({ userId, role }) => ({
+        url: `/update/${userId}`,
+        method: 'PUT',
+        body: { role },
+      }),
+    }),
+    editProfile: builder.mutation({
+      query: (profileData) => ({
+        url: '/edit-profile',
+        method: 'PATCH',
+        body: profileData,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation } = authApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useLogoutUserMutation,
+  useDeleteUserMutation,
+  useGetAllUserMutation,
+  useUpdateUserRoleMutation,
+  useEditProfileMutation,
+} = authApi;
 export default authApi;

@@ -1,21 +1,56 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCartPlus, FaSearch, FaUser } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import avatar from '../assets/images/avatar.png';
 import CartSidebar from './CartSidebar';
+import { useLogoutUserMutation } from '../Redux/Features/auth/authapi';
+import { logout } from '../Redux/Features/auth/authSlice';
+import { toast } from 'react-toastify';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
 
+  const { cartItem } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
+  const [logoutUser] = useLogoutUserMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
-
-  const [openCart, setOpenCart] = useState(false);
   const handleCart = () => {
     setOpenCart(!openCart);
   };
-  const { cartItem } = useSelector((state) => state.cart);
+  const handleDropDown = () => {
+    setDropDown(!dropDown);
+  };
 
+  const adminLink = [
+    { label: 'Dashboard', path: '/dashboard/admin' },
+    { label: 'Manage Item', path: '/dashboard/manage-product' },
+    { label: 'All Orders', path: '/dashboard/manage-orders' },
+    { label: 'Add new Post', path: '/dashboard/add-new-product' },
+  ];
+  const UserLinks = [
+    { label: 'Dashboard', path: '/dashboard' },
+    { label: 'Profile', path: '/dashboard/profile' },
+    { label: 'Payment', path: '/dashboard/payment' },
+    { label: 'Orders', path: '/dashboard/orders' },
+  ];
+  const dropdownMenu = user?.role === 'admin' ? [...adminLink] : [...UserLinks];
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser().unwrap();
+      dispatch(logout());
+      navigate('/');
+      toast.success('User Logout successfully');
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  };
   return (
     <nav className='bg-white border-gray-200 dark:bg-secondary'>
       <div className='max-w-6xl  px-4 lg:px-12  flex flex-wrap items-center justify-between mx-auto p-4'>
@@ -109,13 +144,42 @@ const Navbar = () => {
                   </span>
                 </div>
               </li>
-              <li>
-                <Link
-                  to='/login'
-                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
-                >
-                  <FaUser /> <span>Login</span>
-                </Link>
+              <li className='flex items-center justify-center'>
+                {user ? (
+                  <>
+                    <img
+                      src={user?.profileImage || avatar}
+                      alt='User Image'
+                      className='w-6 h-6 rounded-full cursor-pointer relative '
+                      onClick={handleDropDown}
+                    />
+                    {dropDown && (
+                      <aside className='absolute top-72 right-6 z-50 '>
+                        <ul className='flex flex-col text-lg p-4 space-y-3 bg-white text-darkCharcoal rounded items-start min-w-44'>
+                          {dropdownMenu.map((menu, index) => {
+                            return (
+                              <Link
+                                to={menu.path}
+                                key={index}
+                                className='hover:text-primary'
+                              >
+                                {menu.label}
+                              </Link>
+                            );
+                          })}
+                          <button onClick={handleLogout}>Logout</button>
+                        </ul>
+                      </aside>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to='/login'
+                    className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
+                  >
+                    <FaUser /> <span>Login</span>
+                  </Link>
+                )}
               </li>
             </div>
           </ul>
@@ -134,9 +198,38 @@ const Navbar = () => {
               {cartItem.length}
             </span>
           </div>
-          <Link to={'/login'} className='hover:text-darkCharcoal'>
-            <FaUser />
-          </Link>
+          {user ? (
+            <>
+              <img
+                src={user?.profileImage || avatar}
+                alt='User Image'
+                className='w-6 h-6 rounded-full cursor-pointer relative '
+                onClick={handleDropDown}
+              />
+              {dropDown && (
+                <aside className='absolute top-14 right-6 z-50 '>
+                  <ul className='flex flex-col text-lg p-4 space-y-3 bg-white text-darkCharcoal rounded items-start min-w-44'>
+                    {dropdownMenu.map((menu, index) => {
+                      return (
+                        <Link
+                          to={menu.path}
+                          key={index}
+                          className='hover:text-primary'
+                        >
+                          {menu.label}
+                        </Link>
+                      );
+                    })}
+                    <button onClick={handleLogout}>Logout</button>
+                  </ul>
+                </aside>
+              )}
+            </>
+          ) : (
+            <Link to={'/login'} className='hover:text-darkCharcoal'>
+              <FaUser />
+            </Link>
+          )}
         </div>
       </div>
 
