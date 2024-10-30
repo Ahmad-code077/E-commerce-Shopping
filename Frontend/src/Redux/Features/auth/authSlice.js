@@ -7,6 +7,7 @@ const getFromLocalStorage = () => {
     if (getUser == null) return { user: null };
     return { user: JSON.parse(getUser) };
   } catch (error) {
+    console.log(error);
     return { user: null };
   }
 };
