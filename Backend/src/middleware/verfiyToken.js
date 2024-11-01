@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
 
-    // console.log(token);
+    console.log(token);
     if (!token) {
       return res.status(401).json({
         success: false,

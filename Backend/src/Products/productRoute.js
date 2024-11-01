@@ -1,8 +1,10 @@
 const express = require('express');
 const Product = require('../Products/Product.modal');
 const Reviews = require('../reviews/Reviews.modal');
-
+const verifyToken = require('../middleware/verfiyToken');
+const verifyAdmin = require('../middleware/verifyAdmin');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 router.post('/create-product', async (req, res) => {
   try {
@@ -99,25 +101,54 @@ router.get('/:id', async (req, res) => {
   } catch (error) {}
 });
 
-router.patch('/update-product/:id', async (req, res) => {
-  try {
-    const paramId = req.params.id;
-    const updateProduct = await Product.findByIdAndUpdate(
-      paramId,
-      { ...req.body },
-      { new: true }
-    );
+router.patch(
+  '/update-product/:id',
+  verifyToken,
+  verifyAdmin,
+  async (req, res) => {
+    try {
+      const paramId = req.params.id;
+      const updateProduct = await Product.findByIdAndUpdate(
+        paramId,
+        { ...req.body },
+        { new: true }
+      );
 
-    if (!updateProduct) {
-      return res.status(400).json({
+      if (!updateProduct) {
+        return res.status(400).json({
+          success: false,
+          message: 'Provide the values correctly',
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'item Updated successfully',
+        product: updateProduct,
+      });
+    } catch (error) {
+      res.status(500).json({
         success: false,
-        message: 'Provide the values correctly',
+        message: 'Error while updating product',
+        error: error.message,
       });
     }
+  }
+);
+
+router.delete('/delete-product/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deleteProduct = await Product.findByIdAndDelete(id);
+    if (!deleteProduct) {
+      return res.status(400).json({
+        success: false,
+        message: 'Product not found',
+      });
+    }
+    await Reviews.deleteMany({ productId: id });
     res.status(200).json({
       success: true,
-      message: 'item Updated successfully',
-      product: updateProduct,
+      message: 'Product Deleted Successfully',
     });
   } catch (error) {
     res.status(500).json({
@@ -127,4 +158,63 @@ router.patch('/update-product/:id', async (req, res) => {
     });
   }
 });
+
+router.get('/related/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({ message: 'Invalid product ID format' });
+    }
+
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).send({ message: 'Product not found' });
+    }
+
+    // Check all products in the same category
+    const allProductsInCategory = await Product.find({
+      category: product.category,
+    });
+    console.log('All Products in Category:', allProductsInCategory);
+
+    // Limit regex to the first two meaningful words
+    const titleWords = product.name
+      .split(' ')
+      .filter((word) => word.length > 1)
+      .slice(0, 2)
+      .join('|');
+    const titleRegex = new RegExp(titleWords, 'i');
+
+    console.log('Title Regex:', titleRegex);
+    console.log('Category:', product.category);
+
+    // Query for related products by limited name or category
+    let relatedProducts = await Product.find({
+      _id: { $ne: id },
+      $or: [{ name: { $regex: titleRegex } }, { category: product.category }],
+    });
+
+    console.log('Related Products (Name or Category):', relatedProducts);
+
+    // Fallback: Match partial name if no category matches
+    if (relatedProducts.length === 0) {
+      const partialNameRegex = new RegExp(product.name.split(' ')[0], 'i');
+      relatedProducts = await Product.find({
+        _id: { $ne: id },
+        name: { $regex: partialNameRegex },
+      });
+      console.log('Related Products (Partial Name):', relatedProducts);
+    }
+
+    res.status(200).send({ success: true, relatedProducts });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error while fetching related products',
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;
