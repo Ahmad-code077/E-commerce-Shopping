@@ -13,12 +13,15 @@ const Products = ({ product = [] }) => {
   return (
     <section className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
       {product.map((item) => {
-        const { id, name, price, oldPrice, image, rating } = item;
+        const { _id, id, name, price, oldPrice, image, rating } = item;
 
         // Function to render stars based on rating
 
         return (
-          <div key={id} className='border rounded-lg overflow-hidden shadow-md'>
+          <div
+            key={id || _id}
+            className='border rounded-lg overflow-hidden shadow-md'
+          >
             <div className='relative'>
               <Link to={`/shop/${id}`} className='block'>
                 <LazyImage src={image} alt={name} />
