@@ -43,37 +43,58 @@ router.post('/create-product', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-  const {
-    category,
-    color,
-    minPrice,
-    maxPrice,
-    page = 1,
-    limit = 10,
-  } = req.query;
-  let filter = {};
-  if (category && category !== 'all') {
-    filter.category = category;
-  }
-  if (color && color !== 'all') {
-    filter.color = color;
-  }
-  if (minPrice && maxPrice) {
-    const min = parseFloat(minPrice);
-    const max = parseFloat(maxPrice);
-    if (!NaN(min) && !NaN(max)) {
-      filter.price = { $gte: min, $lte: max };
+  try {
+    const {
+      category,
+      color,
+      minPrice,
+      maxPrice,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    let filter = {};
+
+    // Build filter conditions
+    if (category && category !== 'all') {
+      filter.category = category;
     }
+    if (color && color !== 'all') {
+      filter.color = color;
+    }
+    if (minPrice && maxPrice) {
+      const min = parseFloat(minPrice);
+      const max = parseFloat(maxPrice);
+      if (!isNaN(min) && !isNaN(max)) {
+        filter.price = { $gte: min, $lte: max };
+      }
+    }
+
+    // Calculate pagination
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const limitValue = parseInt(limit);
+
+    // Get total count for pagination metadata
+    const totalProducts = await Product.countDocuments(filter);
+    const totalPages = Math.ceil(totalProducts / limitValue);
+
+    // Fetch products with filter, pagination, and sorting
+    const products = await Product.find(filter)
+      .skip(skip)
+      .limit(limitValue)
+      .populate('author', 'email')
+      .sort({ createdAt: -1, _id: 1 });
+
+    // Log for troubleshooting
+    console.log(`Page: ${page}, Limit: ${limit}`);
+    console.log(`Total Products: ${totalProducts}, Total Pages: ${totalPages}`);
+    console.log(`Fetched Products: ${products.length}`);
+
+    res.status(200).send({ products, totalPages, totalProducts });
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).send({ message: 'Error fetching products', error });
   }
-  const skip = (parseInt(page) - 1) * parseInt(limit);
-  const totalProducts = await Product.countDocuments(filter);
-  const totalPages = Math.ceil(totalProducts / parseInt(limit));
-  const products = await Product.find(filter)
-    .skip(skip)
-    .limit(parseInt(limit))
-    .populate('author', 'email')
-    .sort({ createdAt: -1 });
-  res.status(200).send({ products, totalPages, totalProducts });
 });
 
 router.get('/:id', async (req, res) => {

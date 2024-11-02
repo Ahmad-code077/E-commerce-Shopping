@@ -52,7 +52,7 @@ const Shop = () => {
   // };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(8);
+  const [productsPerPage] = useState(2);
   const { categories, colors, priceRange } = filterState;
   const [maxPrice, minPrice] = priceRange.split('-').map(Number);
 
@@ -122,6 +122,7 @@ const Shop = () => {
 
           <div className='flex items-center justify-center mt-4'>
             <button
+              disabled={currentPage === 1}
               className='px-4 py-2 bg-gray-300 text-gray-600 rounded-sm mr-2'
               onClick={() => handlePageChange(currentPage - 1)}
             >
@@ -143,6 +144,7 @@ const Shop = () => {
               );
             })}
             <button
+              disabled={currentPage === totalPages}
               className='px-4 py-2 bg-gray-300 text-gray-600 rounded-sm mr-2'
               onClick={() => handlePageChange(currentPage + 1)}
             >
