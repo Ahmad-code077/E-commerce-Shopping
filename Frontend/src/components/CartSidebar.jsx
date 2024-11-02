@@ -53,7 +53,7 @@ const CartSidebar = ({ handleCart, openCart }) => {
         ) : (
           cartItem.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className='flex justify-between items-center mb-4 border-b pb-2'
             >
               <img

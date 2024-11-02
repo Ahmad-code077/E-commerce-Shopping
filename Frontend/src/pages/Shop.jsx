@@ -52,7 +52,7 @@ const Shop = () => {
   // };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(2);
+  const [productsPerPage] = useState(8);
   const { categories, colors, priceRange } = filterState;
   const [maxPrice, minPrice] = priceRange.split('-').map(Number);
 
@@ -115,7 +115,7 @@ const Shop = () => {
         </aside>
         <main>
           <h1 className='mb-4 font-semibold text-lg '>
-            Product Available : {products.length}
+            Showing {startProduct} to {endProduct} of {totalProducts}
           </h1>
           <Products product={products} />
           {/* Pagination  */}
