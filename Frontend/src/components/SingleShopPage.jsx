@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 const SingleShopPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  // set the single shop  page
+
   // console.log(id);
   const singleProduct = products.find((item) => item.id === Number(id));
   // console.log(singleProduct);
