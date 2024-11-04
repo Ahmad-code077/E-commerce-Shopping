@@ -58,7 +58,7 @@ const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
       <main>
         <h1 className='my-4 text-primary font-semibold'>Pricing</h1>
         <div className='flex flex-col gap-1 justify-center '>
-          {filters.priceRange.map((range) => {
+          {filters?.priceRange?.map((range) => {
             return (
               <label key={range.label} className='flex items-center gap-x-4 '>
                 <input

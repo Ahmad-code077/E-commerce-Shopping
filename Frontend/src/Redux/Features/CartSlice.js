@@ -30,24 +30,19 @@ export const CartSlice = createSlice({
     },
     updateQuantity: (state, action) => {
       state.cartItem = state.cartItem.map((product) => {
-        console.log('product', product._id);
         if (product._id === action.payload._id) {
           let updatedQuantity;
-
           // Determine the new quantity based on the action type
           if (action.payload.type === 'increment') {
             updatedQuantity = product.quantity + 1;
           } else if (action.payload.type === 'decrement') {
             updatedQuantity = product.quantity > 1 ? product.quantity - 1 : 1;
           }
-
           return {
             ...product,
             quantity: updatedQuantity,
           };
         }
-
-        // Return the unchanged product
         return product;
       });
       state.selectedItems = setSelectedItems(state);
@@ -57,7 +52,7 @@ export const CartSlice = createSlice({
     },
     removeToCart: (state, action) => {
       state.cartItem = state.cartItem.filter((product) => {
-        return product.id !== action.payload;
+        return product._id !== action.payload;
       });
       state.selectedItems = setSelectedItems(state);
       state.totalPrice = setTotalPrice(state);

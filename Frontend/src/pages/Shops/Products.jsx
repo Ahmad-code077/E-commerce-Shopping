@@ -7,7 +7,6 @@ import { addToCart } from '../../Redux/Features/CartSlice';
 const Products = ({ product = [] }) => {
   const dispatch = useDispatch();
   const handleAddCart = (product) => {
-    console.log(product);
     dispatch(addToCart(product));
   };
 

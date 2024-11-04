@@ -12,12 +12,12 @@ const CartSidebar = ({ handleCart, openCart }) => {
   const { cartItem } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const handleIncrease = (id) => {
-    dispatch(updateQuantity({ id, type: 'increment' }));
+  const handleIncrease = (_id) => {
+    dispatch(updateQuantity({ _id, type: 'increment' }));
   };
 
-  const handleDecrease = (id) => {
-    dispatch(updateQuantity({ id, type: 'decrement' }));
+  const handleDecrease = (_id) => {
+    dispatch(updateQuantity({ _id, type: 'decrement' }));
   };
 
   const handleClearCart = () => {
@@ -67,20 +67,20 @@ const CartSidebar = ({ handleCart, openCart }) => {
               </div>
               <div className='flex items-center'>
                 <button
-                  onClick={() => handleDecrease(item.id)}
+                  onClick={() => handleDecrease(item._id)}
                   className='p-1 text-gray-600'
                 >
                   <FaMinus />
                 </button>
                 <span className='mx-2'>{item.quantity}</span>
                 <button
-                  onClick={() => handleIncrease(item.id)}
+                  onClick={() => handleIncrease(item._id)}
                   className='p-1 text-gray-600'
                 >
                   <FaPlus />
                 </button>
                 <button
-                  onClick={() => handleRemove(item.id)}
+                  onClick={() => handleRemove(item._id)}
                   className='p-1 text-red-600'
                 >
                   <FaTrash />
