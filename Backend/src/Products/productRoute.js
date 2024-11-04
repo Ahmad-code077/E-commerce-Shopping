@@ -85,11 +85,6 @@ router.get('/', async (req, res) => {
       .populate('author', 'email')
       .sort({ createdAt: -1, _id: 1 });
 
-    // Log for troubleshooting
-    console.log(`Page: ${page}, Limit: ${limit}`);
-    console.log(`Total Products: ${totalProducts}, Total Pages: ${totalPages}`);
-    console.log(`Fetched Products: ${products.length}`);
-
     res.status(200).send({ products, totalPages, totalProducts });
   } catch (error) {
     console.error('Error fetching products:', error);

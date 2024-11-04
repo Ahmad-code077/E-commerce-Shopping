@@ -21,36 +21,6 @@ const Shop = () => {
     priceRange: '',
   });
 
-  // const applyFilters = () => {
-  //   let filteredProducts = productsData;
-  //   // filter by category
-  //   if (filterState.category && filterState.category !== 'all') {
-  //     filteredProducts = filteredProducts.filter(
-  //       (item) => item.category === filterState.category
-  //     );
-  //     // console.log(filteredProducts);
-  //   }
-
-  //   // filtered by colors
-  //   if (filterState.color && filterState.color !== 'all') {
-  //     filteredProducts = filteredProducts.filter(
-  //       (item) => item.color === filterState.color
-  //     );
-  //   }
-
-  //   //  filter by range
-
-  //   if (filterState.priceRange) {
-  //     const [minPrice, maxPrice] = filterState.priceRange
-  //       .split('-')
-  //       .map(Number);
-  //     filteredProducts = filteredProducts.filter(
-  //       (item) => item.price >= minPrice && item.price <= maxPrice
-  //     );
-  //   }
-  //   setProduct(filteredProducts);
-  // };
-
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8);
   const { categories, colors, priceRange } = filterState;
@@ -80,6 +50,9 @@ const Shop = () => {
       priceRange: '',
     });
   };
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
 
   if (isLoading) return <h1>Loading</h1>;
   if (error) return <h1>Error while deploying </h1>;
@@ -92,6 +65,9 @@ const Shop = () => {
       setCurrentPage(pageChange);
     }
   };
+  // console.log(filterState);
+  // console.log(filters);
+  // console.log(products);
   return (
     <section>
       <main className='text-center max-w-lg mx-auto'>

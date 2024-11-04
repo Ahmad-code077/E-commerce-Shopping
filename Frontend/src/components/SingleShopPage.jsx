@@ -1,27 +1,30 @@
 import { Link, useParams } from 'react-router-dom';
-import products from '../data/products.json';
 import { FaGreaterThan } from 'react-icons/fa';
 import Rating from './Rating';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../Redux/Features/CartSlice';
 import { useEffect } from 'react';
+import { useFetchProductByIdQuery } from '../Redux/Features/products/productApi';
 const SingleShopPage = () => {
-  const { id } = useParams();
   const dispatch = useDispatch();
-  // set the single shop  page
-
-  // console.log(id);
-  const singleProduct = products.find((item) => item.id === Number(id));
-  // console.log(singleProduct);
-  const { name, price, category, color, oldPrice, image, description, rating } =
-    singleProduct;
-  const handleAddCart = (product) => {
-    dispatch(addToCart(product));
-  };
+  const { id } = useParams();
+  const { data, isError, isLoading } = useFetchProductByIdQuery(id);
 
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error on single Page</p>;
+
+  const singleProduct = data?.products || {};
+
+  const { name, price, category, color, oldPrice, image, description, rating } =
+    singleProduct;
+  console.log(singleProduct);
+  const handleAddCart = (product) => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <section>
@@ -58,7 +61,12 @@ const SingleShopPage = () => {
         <div className='flex flex-col gap-y-2 mt-6 capitalize'>
           <h1 className='text-3xl font-bold'>{name}</h1>
           <h1 className='text-lg font-bold'>
-            Price : <span className='text-xl text-primary'>${price}</span>
+            Price : <span className='text-xl text-primary'>${price}</span>{' '}
+            {oldPrice && (
+              <span className='text-xl text-primary line-through'>
+                ${oldPrice}
+              </span>
+            )}
           </h1>
           <h1 className='text-lg font-bold'>
             Category : <span className='text-xl text-primary '>{category}</span>

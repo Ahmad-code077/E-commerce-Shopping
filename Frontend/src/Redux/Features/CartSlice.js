@@ -14,9 +14,9 @@ export const CartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const isExist = state.cartItem.find(
-        (item) => item.id === action.payload.id
-      );
+      const isExist = state.cartItem.find((item) => {
+        return item._id === action.payload._id;
+      });
 
       if (!isExist) {
         state.cartItem.push({ ...action.payload, quantity: 1 });
@@ -30,17 +30,17 @@ export const CartSlice = createSlice({
     },
     updateQuantity: (state, action) => {
       state.cartItem = state.cartItem.map((product) => {
-        if (product.id === action.payload.id) {
+        console.log('product', product._id);
+        if (product._id === action.payload._id) {
           let updatedQuantity;
 
           // Determine the new quantity based on the action type
           if (action.payload.type === 'increment') {
             updatedQuantity = product.quantity + 1;
           } else if (action.payload.type === 'decrement') {
-            updatedQuantity = product.quantity > 1 ? product.quantity - 1 : 1; // Prevent quantity from going below 1
+            updatedQuantity = product.quantity > 1 ? product.quantity - 1 : 1;
           }
 
-          // Return a new product object with the updated quantity
           return {
             ...product,
             quantity: updatedQuantity,
