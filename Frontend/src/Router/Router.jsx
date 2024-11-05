@@ -11,7 +11,7 @@ import {
   Shop,
   SingleCategory,
 } from '../pages';
-import { Error, SingleShopPage } from '../components';
+import { Dashboard, Error, SingleShopPage } from '../components';
 
 const route = createBrowserRouter([
   {
@@ -51,6 +51,10 @@ const route = createBrowserRouter([
         path: '/categories/:category',
         element: <SingleCategory />,
       },
+      {
+        path: '/categories/:category',
+        element: <SingleCategory />,
+      },
     ],
   },
   {
@@ -60,6 +64,40 @@ const route = createBrowserRouter([
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard />,
+    children: [
+      {
+        path: 'admin', // Admin Dashboard
+        element: <AdminDashboard />,
+      },
+      {
+        path: 'manage-product', // Manage Products
+        element: <ManageProduct />,
+      },
+      {
+        path: 'manage-orders', // Manage Orders
+        element: <ManageOrders />,
+      },
+      {
+        path: 'add-new-product', // Add New Product
+        element: <AddNewProduct />,
+      },
+      {
+        path: 'profile', // User Profile
+        element: <UserProfile />,
+      },
+      {
+        path: 'payment', // User Payment
+        element: <UserPayment />,
+      },
+      {
+        path: 'orders', // User Orders
+        element: <UserOrders />,
+      },
+    ],
   },
 ]);
 

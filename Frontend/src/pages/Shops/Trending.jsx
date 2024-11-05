@@ -2,7 +2,7 @@ import Products from './Products';
 // import products from '../../data/products.json';
 import { useState } from 'react';
 import { useFetchAllProductsQuery } from '../../Redux/Features/products/productApi';
-import { Loader } from '../../components';
+import { ErrorProduct, Loader } from '../../components';
 
 const Trending = () => {
   const [visibleProduct, setVisibleProduct] = useState(8);
@@ -18,7 +18,7 @@ const Trending = () => {
     limit: 10, // number of items per page
   });
   if (isLoading) return <Loader />;
-  if (error) return <h1>Error while fetching products</h1>;
+  if (error) return <ErrorProduct />;
   const products = data?.products;
   return (
     <section>

@@ -8,7 +8,10 @@ const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
         <div className='flex flex-col gap-1 justify-center '>
           {filters.categories.map((item) => {
             return (
-              <label key={item} className='flex items-center gap-x-4 '>
+              <label
+                key={item}
+                className='flex items-center gap-x-4 cursor-pointer'
+              >
                 <input
                   type='radio'
                   name='category'
@@ -60,7 +63,10 @@ const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
         <div className='flex flex-col gap-1 justify-center '>
           {filters?.priceRange?.map((range) => {
             return (
-              <label key={range.label} className='flex items-center gap-x-4 '>
+              <label
+                key={range.label}
+                className='flex items-center gap-x-4 cursor-pointer'
+              >
                 <input
                   type='radio'
                   name='PricingRange'

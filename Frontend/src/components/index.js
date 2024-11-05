@@ -14,3 +14,8 @@ export { default as CartSidebar } from './CartSidebar';
 export { default as OrderedSummary } from './OrderedSummary';
 export { default as Error } from './Error';
 export { default as Loader } from './Loader';
+export { default as ErrorProduct } from './ErrorProduct';
+export { default as Dashboard } from './UserComponent/Dashboard';
+export { default as AdminDashboard } from './UserComponent/AdminDashboard';
+export { default as ManageProduct } from './UserComponent/ManageProduct';
+export { default as ManageOrders } from './UserComponent/ManageOrders';

@@ -1,7 +1,7 @@
 import productsData from './../data/products.json';
 import { useEffect, useState } from 'react';
 import Products from './Shops/Products';
-import { Loader, ShopSidebar } from '../components';
+import { ErrorProduct, Loader, ShopSidebar } from '../components';
 import { useFetchAllProductsQuery } from '../Redux/Features/products/productApi';
 
 const Shop = () => {
@@ -18,7 +18,6 @@ const Shop = () => {
   const [minPrice, maxPrice] = priceRange
     ? priceRange.split('-').map(Number)
     : [0, Infinity];
-  console.log('all', category, color, maxPrice, minPrice);
   const {
     data: { products = [], totalPages, totalProducts } = {},
     error,
@@ -55,7 +54,7 @@ const Shop = () => {
   }, []);
 
   if (isLoading) return <Loader />;
-  if (error) return <h1>Error while deploying </h1>;
+  if (error) return <ErrorProduct />;
 
   const startProduct = (currentPage - 1) * productsPerPage + 1;
   const endProduct = startProduct + products.length - 1;
@@ -77,8 +76,8 @@ const Shop = () => {
           accessories. Elevate your style today!
         </p>
       </main>
-      <main className='flex mt-12'>
-        <aside className='w-2/4 sm:w-1/4'>
+      <main className='flex mt-12 mx-auto'>
+        <aside className='w-[35%] sm:w-1/4'>
           {' '}
           <ShopSidebar
             filters={filters}
@@ -87,11 +86,21 @@ const Shop = () => {
             clearFilter={clearFilter}
           />
         </aside>
-        <main>
+        <main className='w-[60%] sm:w-full '>
           <h1 className='mb-4 font-semibold text-lg '>
             Showing {products.length > 0 && startProduct} to {endProduct} of{' '}
             {totalProducts}
           </h1>
+          {endProduct < 1 && (
+            <div className='  sm:text-center flex flex-col my-auto gap-6 '>
+              <h1 className=' text-primary  font-extrabold sm:text-5xl'>
+                Oops
+              </h1>
+              <h1 className='sm:text-3xl'>
+                No Product match your search Criteria
+              </h1>
+            </div>
+          )}
           <Products product={products} />
           {/* Pagination  */}
 
