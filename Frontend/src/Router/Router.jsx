@@ -11,13 +11,13 @@ import {
   Shop,
   SingleCategory,
 } from '../pages';
-import { SingleShopPage } from '../components';
+import { Error, SingleShopPage } from '../components';
 
 const route = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-
+    errorElement: <Error />,
     children: [
       {
         path: '/',

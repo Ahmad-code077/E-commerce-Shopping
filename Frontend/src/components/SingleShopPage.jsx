@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../Redux/Features/CartSlice';
 import { useEffect } from 'react';
 import { useFetchProductByIdQuery } from '../Redux/Features/products/productApi';
+import Loading from './Loader';
 const SingleShopPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -14,7 +15,7 @@ const SingleShopPage = () => {
     window.scroll(0, 0);
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (isError) return <p>Error on single Page</p>;
 
   const singleProduct = data?.products || {};

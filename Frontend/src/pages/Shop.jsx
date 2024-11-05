@@ -1,7 +1,7 @@
 import productsData from './../data/products.json';
 import { useEffect, useState } from 'react';
 import Products from './Shops/Products';
-import { ShopSidebar } from '../components';
+import { Loader, ShopSidebar } from '../components';
 import { useFetchAllProductsQuery } from '../Redux/Features/products/productApi';
 
 const Shop = () => {
@@ -54,7 +54,7 @@ const Shop = () => {
     window.scroll(0, 0);
   }, []);
 
-  if (isLoading) return <h1>Loading</h1>;
+  if (isLoading) return <Loader />;
   if (error) return <h1>Error while deploying </h1>;
 
   const startProduct = (currentPage - 1) * productsPerPage + 1;
@@ -65,9 +65,7 @@ const Shop = () => {
       setCurrentPage(pageChange);
     }
   };
-  console.log(filterState);
-  console.log(filters);
-  console.log(products);
+
   return (
     <section>
       <main className='text-center max-w-lg mx-auto'>
@@ -97,7 +95,7 @@ const Shop = () => {
           <Products product={products} />
           {/* Pagination  */}
 
-          {products.length > 0 && (
+          {products.length > 0 && totalProducts > productsPerPage && (
             <div className='flex items-center justify-center mt-4'>
               <button
                 disabled={currentPage === 1}

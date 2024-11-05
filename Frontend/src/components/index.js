@@ -12,3 +12,5 @@ export { default as ShopSidebar } from './ShopSidebar';
 export { default as SingleShopPage } from './SingleShopPage';
 export { default as CartSidebar } from './CartSidebar';
 export { default as OrderedSummary } from './OrderedSummary';
+export { default as Error } from './Error';
+export { default as Loader } from './Loader';
