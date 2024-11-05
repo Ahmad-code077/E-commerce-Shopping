@@ -11,7 +11,19 @@ import {
   Shop,
   SingleCategory,
 } from '../pages';
-import { Dashboard, Error, SingleShopPage } from '../components';
+import {
+  AddNewProduct,
+  AdminDashboard,
+  Dashboard,
+  Error,
+  ManageOrders,
+  ManageProduct,
+  SingleShopPage,
+  UserDashboard,
+  UserOrders,
+  UserPayment,
+  UserProfile,
+} from '../components';
 
 const route = createBrowserRouter([
   {
@@ -72,6 +84,10 @@ const route = createBrowserRouter([
       {
         path: 'admin', // Admin Dashboard
         element: <AdminDashboard />,
+      },
+      {
+        path: 'User',
+        element: <UserDashboard />,
       },
       {
         path: 'manage-product', // Manage Products
