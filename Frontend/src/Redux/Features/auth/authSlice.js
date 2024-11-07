@@ -10,8 +10,10 @@ const getFromLocalStorage = () => {
     return { user: null };
   }
 };
-const initialState = getFromLocalStorage();
-
+const initialState = {
+  ...getFromLocalStorage(),
+  isOpen: false,
+};
 const authSlice = createSlice({
   name: 'authSlice',
   initialState,
@@ -24,8 +26,11 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem('user');
     },
+    setIsOpen: (state, action) => {
+      state.isOpen = action.payload;
+    },
   },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, logout, setIsOpen } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   BarChart,
   Bar,
@@ -11,13 +10,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const data = [
-  { name: 'Total Payment', purchases: 0 },
-  { name: 'Total Reviews', purchases: 0 },
-  { name: 'Total Purchase Product', purchases: 0 },
-];
-
-const DashboardChart = () => {
+// Pass data dynamically here
+const DashboardChart = ({ data }) => {
   return (
     <ResponsiveContainer width='100%' height={300}>
       <BarChart
