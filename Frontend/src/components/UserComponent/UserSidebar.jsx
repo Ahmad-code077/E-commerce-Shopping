@@ -27,7 +27,7 @@ const UserSidebar = () => {
     <aside
       className={`${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } fixed top-0 left-0 lg:left-auto lg:static transform lg:translate-x-0 transition-transform duration-300  w-64 h-full bg-gray-800 text-white shadow-lg z-50`}
+      } fixed top-0 left-0  transform transition-transform duration-300 lg:w-[300px] w-64 h-full bg-gray-800 text-white shadow-lg z-50`}
     >
       <div className='flex justify-between items-center py-6 px-4 border-b border-gray-700'>
         <Link
@@ -38,7 +38,7 @@ const UserSidebar = () => {
         </Link>
         <button
           onClick={() => dispatch(setIsOpen(!isOpen))}
-          className='text-3xl text-primary cursor-pointer lg:hidden'
+          className='text-3xl text-primary cursor-pointer '
         >
           <GiCrossMark />
         </button>
