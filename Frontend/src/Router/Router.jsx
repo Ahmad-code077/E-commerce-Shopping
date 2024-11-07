@@ -24,6 +24,7 @@ import {
   UserPayment,
   UserProfile,
 } from '../components';
+import AuthenticateUser from '../components/AutenticateUser';
 
 const route = createBrowserRouter([
   {
@@ -63,10 +64,6 @@ const route = createBrowserRouter([
         path: '/categories/:category',
         element: <SingleCategory />,
       },
-      {
-        path: '/categories/:category',
-        element: <SingleCategory />,
-      },
     ],
   },
   {
@@ -82,24 +79,41 @@ const route = createBrowserRouter([
     element: <Dashboard />,
     children: [
       {
-        path: 'admin', // Admin Dashboard
-        element: <AdminDashboard />,
+        path: 'admin', // Admin Route
+        element: (
+          <AuthenticateUser>
+            {' '}
+            <AdminDashboard />{' '}
+          </AuthenticateUser>
+        ),
       },
       {
         path: 'User',
         element: <UserDashboard />,
       },
       {
-        path: 'manage-product', // Manage Products
-        element: <ManageProduct />,
+        path: 'manage-product', // Admin Route
+        element: (
+          <AuthenticateUser>
+            <ManageProduct />,
+          </AuthenticateUser>
+        ),
       },
       {
-        path: 'manage-orders', // Manage Orders
-        element: <ManageOrders />,
+        path: 'manage-orders', // Admin Route
+        element: (
+          <AuthenticateUser>
+            <ManageOrders />,
+          </AuthenticateUser>
+        ),
       },
       {
-        path: 'add-new-product', // Add New Product
-        element: <AddNewProduct />,
+        path: 'add-new-product', // Admin Route
+        element: (
+          <AuthenticateUser>
+            <AddNewProduct />,
+          </AuthenticateUser>
+        ),
       },
       {
         path: 'profile', // User Profile

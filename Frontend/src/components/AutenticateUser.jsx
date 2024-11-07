@@ -1,16 +1,16 @@
-// AuthenticateUser.js
-import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-const AuthenticateUser = ({ children, user }) => {
-  // const isAdmin = user?.role === 'admin';
+const AuthenticateUser = ({ children }) => {
+  const { user } = useSelector((state) => state.auth);
 
-  // if (!isAdmin) {
-  //   return <Navigate to='/' replace />; // Redirect to home if not an admin
-  // }
+  const isAdmin = user?.role === 'admin';
 
-  // return children; // Render children if admin
-  return <h1>hello</h1>;
+  if (!isAdmin) {
+    return <Navigate to='/' replace />; // Redirect to home if not an admin
+  }
+
+  return children; // Render children if admin
 };
 
 export default AuthenticateUser;

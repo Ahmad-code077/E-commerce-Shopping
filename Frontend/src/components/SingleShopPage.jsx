@@ -22,7 +22,7 @@ const SingleShopPage = () => {
 
   const { name, price, category, color, oldPrice, image, description, rating } =
     singleProduct;
-  console.log(singleProduct);
+
   const handleAddCart = (product) => {
     dispatch(addToCart(product));
   };

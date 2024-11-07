@@ -26,3 +26,4 @@ export { default as UserOrders } from './UserComponent/UserOrders';
 export { default as UserSidebar } from './UserComponent/UserSidebar';
 export { default as UserDashboard } from './UserComponent/UserDashboard';
 export { default as AutenticateUser } from './AutenticateUser';
+export { default as DashboardChart } from './Charts/DashboardChart';

@@ -34,7 +34,7 @@ const Navbar = () => {
     { label: 'Add new Post', path: '/dashboard/add-new-product' },
   ];
   const UserLinks = [
-    { label: 'Dashboard', path: '/dashboard' },
+    { label: 'Dashboard', path: '/dashboard/user' },
     { label: 'Profile', path: '/dashboard/profile' },
     { label: 'Payment', path: '/dashboard/payment' },
     { label: 'Orders', path: '/dashboard/orders' },
@@ -111,7 +111,7 @@ const Navbar = () => {
                 to='/pages'
                 className='block py-2 px-3 rounded  md:hover:bg-transparent text-white hover:text-darkCharcoal'
               >
-                Pages
+                About
               </Link>
             </li>
             <li>

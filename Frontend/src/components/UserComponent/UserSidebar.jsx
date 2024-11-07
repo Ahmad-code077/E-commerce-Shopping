@@ -21,7 +21,8 @@ const UserSidebar = () => {
   const dropdownMenu = user.role === 'admin' ? adminLinks : userLinks;
 
   return (
-    <nav>
+    <aside className='sm:w-1/4  '>
+      <h1 className='text-primary text-xl'>Welcome to Dashboard</h1>
       <ul>
         {dropdownMenu.map((link) => (
           <li key={link.label}>
@@ -29,7 +30,7 @@ const UserSidebar = () => {
           </li>
         ))}
       </ul>
-    </nav>
+    </aside>
   );
 };
 

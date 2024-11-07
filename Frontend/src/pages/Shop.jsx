@@ -58,7 +58,6 @@ const Shop = () => {
 
   const startProduct = (currentPage - 1) * productsPerPage + 1;
   const endProduct = startProduct + products.length - 1;
-
   const handlePageChange = (pageChange) => {
     if (pageChange > 0 && pageChange <= totalPages) {
       setCurrentPage(pageChange);

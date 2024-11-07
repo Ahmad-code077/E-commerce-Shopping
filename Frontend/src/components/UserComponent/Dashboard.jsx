@@ -4,12 +4,11 @@ import UserSidebar from './UserSidebar';
 
 const Dashboard = () => {
   return (
-    <div className='dashboard'>
+    <div className='flex'>
       <UserSidebar /> {/* Render your sidebar here */}
-      <div className='dashboard-content'>
+      <div className='w-3/4'>
         <Outlet /> {/* This is where the child routes will be rendered */}
       </div>
-      <div>Welcome to Your Dashboard</div>
     </div>
   );
 };

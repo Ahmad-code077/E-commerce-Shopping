@@ -1,23 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import products from '../data/products.json';
 
 import Products from './Shops/Products';
+import { useFetchAllProductsQuery } from '../Redux/Features/products/productApi';
+import { ErrorProduct, Loader } from '../components';
 const SingleCategory = () => {
   const { category } = useParams();
-
-  const [Filtered, setFiltered] = useState([]);
-
-  useEffect(() => {
-    const filter = products.filter(
-      (item) => item.category === category.toLowerCase()
-    );
-    setFiltered(filter);
-  }, []);
+  const { data, isError, isLoading } = useFetchAllProductsQuery({ category });
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (isLoading) return <Loader />;
+  if (isError) return <ErrorProduct />;
+  const product = data?.products;
 
   return (
     <section>
@@ -32,7 +29,7 @@ const SingleCategory = () => {
       </main>
 
       <main className='mt-12'>
-        <Products product={Filtered} />
+        <Products product={product} />
       </main>
     </section>
   );
