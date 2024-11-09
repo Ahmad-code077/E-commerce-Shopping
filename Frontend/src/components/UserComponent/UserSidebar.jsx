@@ -6,7 +6,7 @@ import { GiCrossMark } from 'react-icons/gi';
 const UserSidebar = () => {
   const { user, isOpen } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  //  update the e-commerce
+
   const adminLinks = [
     { label: 'Dashboard', path: '/dashboard/admin' },
     { label: 'Manage Item', path: '/dashboard/manage-product' },
