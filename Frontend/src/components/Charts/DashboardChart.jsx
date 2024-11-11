@@ -10,7 +10,6 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-// Pass data dynamically here
 const DashboardChart = ({ data }) => {
   return (
     <ResponsiveContainer width='100%' height={300}>
@@ -28,14 +27,6 @@ const DashboardChart = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        {/* <Bar'ill='#8884d8'
-          shape={<Rectangle fill='pink' stroke='blue' />}
-        />
-        <Bar
-          dataKey='uv'
-          fill='#82ca9d'
-          shape={<Rectangle fill='gold' stroke='purple' />}
-        /> */}
         <Bar
           dataKey='purchases'
           fill='#ffc658'

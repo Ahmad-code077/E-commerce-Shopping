@@ -50,6 +50,7 @@ router.post('/login', async (req, res) => {
     }
     const isPasswordValid = await bcrypt.compare(password, existUser.password);
     // console.log('is password', isPasswordValid);
+
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -57,7 +58,8 @@ router.post('/login', async (req, res) => {
       });
     }
     const token = await generateToken(existUser.id);
-
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('hashed Password', hashedPassword);
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
@@ -76,6 +78,7 @@ router.post('/login', async (req, res) => {
         bio: existUser.bio,
         profession: existUser.profession,
         createdAt: existUser.createdAt,
+        password: hashedPassword,
       },
     });
   } catch (error) {
@@ -181,22 +184,18 @@ router.put('/update/:id', async (req, res) => {
 // Edit Profile
 router.patch('/edit-profile', async (req, res) => {
   try {
-    const { userId, ...updateData } = req.body;
-
-    if (!userId) {
+    const { userId, oldPassword, newPassword, ...updateData } = req.body;
+    console.log(userId, 'old', oldPassword, 'new', newPassword);
+    if ((oldPassword || newPassword) && (!oldPassword || !newPassword)) {
       return res.status(400).json({
         success: false,
-        message: 'UserId is not defined',
+        message:
+          'Both old password and new password are required when updating the password.',
       });
     }
 
-    // Find and update the user with only the provided fields
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { $set: updateData },
-      { new: true, runValidators: true }
-    );
-
+    // Find the user by ID
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -204,15 +203,40 @@ router.patch('/edit-profile', async (req, res) => {
       });
     }
 
+    // Verify the old password
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: 'Old password is incorrect',
+      });
+    }
+
+    // Hash the new password if provided
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // Prepare the updated user data
+    const updatedData = { ...updateData };
+    if (newPassword) {
+      updatedData.password = hashedNewPassword;
+    }
+
+    // Update the user profile with the new data
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updatedData },
+      { new: true, runValidators: true }
+    );
+
     res.status(200).json({
       success: true,
       message: 'Profile updated successfully',
-      user,
+      user: updatedUser,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error while Editing Profile',
+      message: 'Error while editing profile',
       error: error.message,
     });
   }

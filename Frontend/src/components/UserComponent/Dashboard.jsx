@@ -10,13 +10,13 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   return (
-    <main>
+    <main className='flex '>
       <FaBars
-        className='text-3xl text-primary cursor-pointer ml-4 mt-4 '
+        className='text-3xl text-primary cursor-pointer ml-4 mt-4 lg:hidden'
         onClick={() => dispatch(setIsOpen(!isOpen))}
       />
       <UserSidebar />
-      <div>
+      <div className='w-[80%]'>
         <Outlet />
       </div>
     </main>

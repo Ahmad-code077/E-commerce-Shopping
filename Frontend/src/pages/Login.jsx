@@ -43,6 +43,7 @@ const Login = () => {
         toast.success(response?.message);
         // console.log(response);
         const { user } = response;
+        console.log(user);
         dispatch(setUser({ user }));
         navigate('/');
       } catch (error) {

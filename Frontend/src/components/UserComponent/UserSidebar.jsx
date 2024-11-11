@@ -24,43 +24,54 @@ const UserSidebar = () => {
   const dropdownMenu = user?.role === 'admin' ? adminLinks : userLinks;
 
   return (
-    <aside
-      className={`${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } fixed top-0 left-0  transform transition-transform duration-300 lg:w-[300px] w-64 h-full bg-gray-800 text-white shadow-lg z-50`}
-    >
-      <div className='flex justify-between items-center py-6 px-4 border-b border-gray-700'>
-        <Link
-          to='/'
-          className='text-3xl font-semibold text-primary hover:text-primary-dark transition duration-300'
-        >
-          Ahmad
-        </Link>
-        <button
-          onClick={() => dispatch(setIsOpen(!isOpen))}
-          className='text-3xl text-primary cursor-pointer '
-        >
-          <GiCrossMark />
-        </button>
-      </div>
+    <>
+      {/* Sidebar */}
+      <aside
+        className={`${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } lg:translate-x-0 fixed lg:static top-0 left-0 transform transition-transform duration-300 lg:w-[300px] w-64 h-full bg-gray-800 text-white shadow-lg z-50 lg:min-h-[100vh]`}
+      >
+        <div className='flex justify-between items-center py-6 px-4 border-b border-gray-700'>
+          <Link
+            to='/'
+            className='text-3xl font-semibold text-primary hover:text-primary-dark transition duration-300'
+          >
+            Ahmad
+          </Link>
+          <button
+            onClick={() => dispatch(setIsOpen(!isOpen))}
+            className='text-3xl text-primary cursor-pointer lg:hidden'
+          >
+            <GiCrossMark />
+          </button>
+        </div>
 
-      <ul className='mt-8 space-y-4 px-4'>
-        {dropdownMenu.map((link) => (
-          <li key={link.label} className='group'>
-            <NavLink
-              to={link.path}
-              className={({ isActive }) =>
-                `flex items-center px-4 py-2 rounded-lg text-lg font-medium ${
-                  isActive ? 'bg-primary text-white' : 'text-gray-300'
-                } hover:bg-primary hover:text-white transition duration-300`
-              }
-            >
-              {link.label}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </aside>
+        <ul className='mt-8 space-y-4 px-4'>
+          {dropdownMenu.map((link) => (
+            <li key={link.label} className='group'>
+              <NavLink
+                to={link.path}
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 rounded-lg text-lg font-medium ${
+                    isActive ? 'bg-primary text-white' : 'text-gray-300'
+                  } hover:bg-primary hover:text-white transition duration-300`
+                }
+              >
+                {link.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      {/* Overlay for small screens */}
+      {isOpen && (
+        <div
+          className='fixed inset-0 bg-black opacity-50 z-40 lg:hidden'
+          onClick={() => dispatch(setIsOpen(false))}
+        />
+      )}
+    </>
   );
 };
 
