@@ -185,7 +185,6 @@ router.put('/update/:id', async (req, res) => {
 router.patch('/edit-profile', async (req, res) => {
   try {
     const { userId, oldPassword, newPassword, ...updateData } = req.body;
-    console.log(userId, 'old', oldPassword, 'new', newPassword);
     if ((oldPassword || newPassword) && (!oldPassword || !newPassword)) {
       return res.status(400).json({
         success: false,
