@@ -1,35 +1,37 @@
 import { useState, useEffect } from 'react';
 import { useEditProfileMutation } from '../../Redux/Features/auth/authapi';
 import { useSelector } from 'react-redux';
-
+import { toast } from 'react-toastify';
 const UserProfile = () => {
   const { user } = useSelector((state) => state.auth);
   const { id, username, email, bio, profession, imageUrl } = user;
-  console.log(user);
+
   const [profileData, setProfileData] = useState({
     userId: id,
     username: username || '',
     email: email || '',
-    oldPassword: '', // added oldPassword field for validation
-    newPassword: '', // added newPassword field
+    oldPassword: '',
+    newPassword: '',
     bio: bio || '',
     profession: profession || '',
     imageUrl: imageUrl || '',
   });
 
-  const [editProfile, { isLoading, isSuccess, error }] =
-    useEditProfileMutation();
+  const [editProfile, { isLoading }] = useEditProfileMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Ensure that the old password and new password are provided if updating password
-
     try {
       await editProfile(profileData).unwrap();
-      alert('Profile updated successfully!');
+      toast.success('Profile updated successfully!');
+      profileData.imageUrl = '';
+      profileData.bio = '';
+      profileData.newPassword = '';
+      profileData.oldPassword = '';
+      profileData.profession = '';
     } catch (err) {
       console.error('Failed to update profile:', err);
+      toast.error(err?.data?.message);
     }
   };
 
@@ -162,17 +164,6 @@ const UserProfile = () => {
         >
           {isLoading ? 'Updating...' : 'Update Profile'}
         </button>
-
-        {isSuccess && (
-          <p className='text-green-500 text-center mt-4'>
-            Profile updated successfully!
-          </p>
-        )}
-        {error && (
-          <p className='text-red-500 text-center mt-4'>
-            Error updating profile. Please try again.
-          </p>
-        )}
       </form>
     </div>
   );
