@@ -24,7 +24,6 @@ const Login = () => {
       newErrors.emailError = 'Email address is invalid.';
     }
 
-    // Password validation
     if (!payLoad.password.trim()) {
       newErrors.passwordError = 'Password is required.';
     } else if (
@@ -41,7 +40,6 @@ const Login = () => {
       try {
         const response = await loginUser(payLoad).unwrap();
         toast.success(response?.message);
-        // console.log(response);
         const { user } = response;
         console.log(user);
         dispatch(setUser({ user }));
@@ -62,13 +60,13 @@ const Login = () => {
               {error.emailError ? (
                 <p className='text-red-500'>{error.emailError}</p>
               ) : (
-                'Email' // Updated label to Email
+                'Email'
               )}
             </label>
             <input
-              type='email' // Change type to 'email'
-              name='email' // Updated name to 'email'
-              id='email' // Updated id to 'email'
+              type='email'
+              name='email'
+              id='email'
               placeholder='Email'
               className='flex items-center gap-2 justify-center mt-4 outline-1 rounded-md p-2 w-full text-xl border border-[#9C8F98] text-black'
             />
@@ -100,7 +98,7 @@ const Login = () => {
           </div>
         </form>
         <h1 className='mt-8 text-center'>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             to={'/register'}
             className='text-primary hover:text-primary-dark'

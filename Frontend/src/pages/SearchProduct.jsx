@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import products from '../data/products.json';
 import Products from './Shops/Products';
 import { FaSearch } from 'react-icons/fa';
 import { useFetchAllProductsQuery } from '../Redux/Features/products/productApi';
@@ -27,7 +26,6 @@ const SearchProduct = () => {
     setFiltered(filter);
   };
 
-  // Update filtered products whenever data changes or on initial load
   useEffect(() => {
     if (data) setFiltered(data.products);
   }, [data]);

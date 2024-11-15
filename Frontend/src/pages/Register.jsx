@@ -9,7 +9,7 @@ const Register = () => {
 
   const [error, setError] = useState({
     nameError: '',
-    emailError: '', // Updated to emailError
+    emailError: '',
     passwordError: '',
   });
 
@@ -57,7 +57,6 @@ const Register = () => {
       } catch (error) {
         toast.error(error?.data?.message);
       }
-      // navigate('/'); // Navigate to home or desired route
     }
   };
 
@@ -84,16 +83,16 @@ const Register = () => {
           </div>
           <div>
             <label htmlFor='email'>
-              {error.emailError ? ( // Updated to check for emailError
+              {error.emailError ? (
                 <p className='text-red-500'>{error.emailError}</p>
               ) : (
-                'Email' // Updated label to Email
+                'Email'
               )}
             </label>
             <input
-              type='email' // Change type to 'email'
-              name='email' // Updated name to 'email'
-              id='email' // Updated id to 'email'
+              type='email'
+              name='email'
+              id='email'
               placeholder='Email'
               className='flex items-center gap-2 justify-center mt-4 outline-1 rounded-md p-2 w-full text-xl border border-[#9C8F98] text-black'
             />
@@ -116,6 +115,7 @@ const Register = () => {
           </div>
           <div>
             <button
+              disabled={isLoading}
               type='submit'
               className='flex items-center gap-2 justify-center bg-primary rounded-md p-2 w-full text-white text-xl'
             >
