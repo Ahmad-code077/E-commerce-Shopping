@@ -7,10 +7,10 @@ const AuthenticateUser = ({ children }) => {
   const isAdmin = user?.role === 'admin';
 
   if (!isAdmin) {
-    return <Navigate to='/' replace />; // Redirect to home if not an admin
+    return <Navigate to='/' replace />;
   }
 
-  return children; // Render children if admin
+  return children;
 };
 
 export default AuthenticateUser;

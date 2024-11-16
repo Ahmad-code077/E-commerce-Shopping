@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import cat1 from '../assets/images/category-1.jpg';
 import cat2 from '../assets/images/category-2.jpg';
@@ -26,7 +25,7 @@ const Categories = () => {
       image: cat3,
     },
     {
-      id: 4, // Fixed the id here
+      id: 4,
       category: 'Cosmetics',
       path: 'cosmetics',
       image: cat4,
