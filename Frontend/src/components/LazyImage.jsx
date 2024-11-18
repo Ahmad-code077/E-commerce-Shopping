@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-// LazyImage component for lazy loading
 const LazyImage = ({ src, alt }) => {
   const imgRef = useRef();
   const [isVisible, setIsVisible] = useState(false);
@@ -10,10 +9,10 @@ const LazyImage = ({ src, alt }) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect(); // Stop observing once loaded
+          observer.disconnect();
         }
       },
-      { threshold: 0.1 } // Load when 10% of the image is visible
+      { threshold: 0.1 }
     );
 
     if (imgRef.current) {
