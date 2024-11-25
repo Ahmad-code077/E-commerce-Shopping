@@ -182,14 +182,75 @@ router.put('/update/:id', async (req, res) => {
 });
 
 // Edit Profile
-router.patch('/edit-profile', async (req, res) => {
+// router.patch('/edit-profile', async (req, res) => {
+//   try {
+//     const { userId, oldPassword, newPassword, ...updateData } = req.body;
+//     if ((oldPassword || newPassword) && (!oldPassword || !newPassword)) {
+//       return res.status(400).json({
+//         success: false,
+//         message:
+//           'Both old password and new password are required when updating the password.',
+//       });
+//     }
+
+//     // Find the user by ID
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'User not found',
+//       });
+//     }
+
+//     // Verify the old password
+//     const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+//     if (!isPasswordValid) {
+//       return res.status(401).json({
+//         success: false,
+//         message: 'Old password is incorrect',
+//       });
+//     }
+
+//     // Hash the new password if provided
+//     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+//     // Prepare the updated user data
+//     const updatedData = { ...updateData };
+//     if (newPassword) {
+//       updatedData.password = hashedNewPassword;
+//     }
+
+//     // Update the user profile with the new data
+//     const updatedUser = await User.findByIdAndUpdate(
+//       userId,
+//       { $set: updatedData },
+//       { new: true, runValidators: true }
+//     );
+
+//     res.status(200).json({
+//       success: true,
+//       message: 'Profile updated successfully',
+//       user: updatedUser,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: 'Error while editing profile',
+//       error: error.message,
+//     });
+//   }
+// });
+
+// Update Profile
+router.patch('/update-profile', async (req, res) => {
   try {
-    const { userId, oldPassword, newPassword, ...updateData } = req.body;
-    if ((oldPassword || newPassword) && (!oldPassword || !newPassword)) {
+    const { userId, ...updateData } = req.body;
+
+    // Ensure userId is provided
+    if (!userId) {
       return res.status(400).json({
         success: false,
-        message:
-          'Both old password and new password are required when updating the password.',
+        message: 'User ID is required.',
       });
     }
 
@@ -198,44 +259,26 @@ router.patch('/edit-profile', async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found',
+        message: 'User not found.',
       });
     }
 
-    // Verify the old password
-    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        success: false,
-        message: 'Old password is incorrect',
-      });
-    }
-
-    // Hash the new password if provided
-    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
-    // Prepare the updated user data
-    const updatedData = { ...updateData };
-    if (newPassword) {
-      updatedData.password = hashedNewPassword;
-    }
-
-    // Update the user profile with the new data
+    // Update the user profile with the provided data
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: updatedData },
+      { $set: updateData },
       { new: true, runValidators: true }
     );
 
     res.status(200).json({
       success: true,
-      message: 'Profile updated successfully',
+      message: 'Profile updated successfully.',
       user: updatedUser,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error while editing profile',
+      message: 'Error while updating profile.',
       error: error.message,
     });
   }

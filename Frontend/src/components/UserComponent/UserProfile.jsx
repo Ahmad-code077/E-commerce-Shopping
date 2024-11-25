@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useEditProfileMutation } from '../../Redux/Features/auth/authapi';
+import {
+  useEditProfileMutation,
+  useGetMyProfileQuery,
+} from '../../Redux/Features/auth/authapi';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 const UserProfile = () => {
   const { user } = useSelector((state) => state.auth);
   const { id, username, email, bio, profession, imageUrl } = user;
+  const { data } = useGetMyProfileQuery();
+  console.log(data);
   // make this the user can update password not every time
   const [profileData, setProfileData] = useState({
     userId: id,
     username: username || '',
     email: email || '',
-    oldPassword: '',
-    newPassword: '',
+    // oldPassword: '',
+    // newPassword: '',
     bio: bio || '',
     profession: profession || '',
     imageUrl: imageUrl || '',
@@ -26,8 +31,8 @@ const UserProfile = () => {
       toast.success('Profile updated successfully!');
       profileData.imageUrl = '';
       profileData.bio = '';
-      profileData.newPassword = '';
-      profileData.oldPassword = '';
+      // profileData.newPassword = '';
+      // profileData.oldPassword = '';
       profileData.profession = '';
     } catch (err) {
       console.error('Failed to update profile:', err);
@@ -43,8 +48,8 @@ const UserProfile = () => {
       bio,
       profession,
       imageUrl,
-      oldPassword: '', // reset password fields when user data changes
-      newPassword: '',
+      // oldPassword: '', // reset password fields when user data changes
+      // newPassword: '',
     });
   }, [user, id, username, email, bio, profession, imageUrl]);
 
@@ -84,7 +89,7 @@ const UserProfile = () => {
           />
         </div>
 
-        <div className='mb-4'>
+        {/* <div className='mb-4'>
           <label className='block text-gray-700 font-medium mb-2'>
             Old Password
           </label>
@@ -97,9 +102,9 @@ const UserProfile = () => {
             }
             className='w-full p-3 border rounded-lg focus:outline-none focus:border-primary'
           />
-        </div>
+        </div> */}
 
-        <div className='mb-4'>
+        {/* <div className='mb-4'>
           <label className='block text-gray-700 font-medium mb-2'>
             New Password
           </label>
@@ -112,7 +117,7 @@ const UserProfile = () => {
             }
             className='w-full p-3 border rounded-lg focus:outline-none focus:border-primary'
           />
-        </div>
+        </div> */}
 
         <div className='mb-4'>
           <label className='block text-gray-700 font-medium mb-2'>Bio</label>

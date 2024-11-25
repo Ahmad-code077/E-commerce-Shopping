@@ -23,6 +23,7 @@ import {
   UserOrders,
   UserPayment,
   UserProfile,
+  SeeUserProfile,
 } from '../components';
 import AuthenticateUser from '../components/AutenticateUser';
 
@@ -117,7 +118,8 @@ const route = createBrowserRouter([
       },
       {
         path: 'profile', // User Profile
-        element: <UserProfile />,
+        // element: <UserProfile />,
+        element: <SeeUserProfile />,
       },
       {
         path: 'payment', // User Payment
