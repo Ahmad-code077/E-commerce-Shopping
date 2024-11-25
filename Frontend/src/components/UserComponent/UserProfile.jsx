@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 const UserProfile = () => {
   const { user } = useSelector((state) => state.auth);
   const { id, username, email, bio, profession, imageUrl } = user;
-
+  // make this the user can update password not every time
   const [profileData, setProfileData] = useState({
     userId: id,
     username: username || '',

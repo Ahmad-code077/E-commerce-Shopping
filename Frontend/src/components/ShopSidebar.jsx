@@ -1,4 +1,6 @@
 const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
+  console.log(filters);
+  console.log('filterState', filterState);
   return (
     <section>
       <h1 className='text-2xl font-semibold '>Filters</h1>
@@ -6,7 +8,7 @@ const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
       <main>
         <h1 className='my-4 text-primary font-semibold'>Categories</h1>
         <div className='flex flex-col gap-1 justify-center '>
-          {filters.categories.map((item) => {
+          {filters?.categories?.map((item) => {
             return (
               <label
                 key={item}
@@ -17,7 +19,7 @@ const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
                   name='category'
                   id={item}
                   value={item}
-                  checked={filterState.category === item}
+                  checked={filterState?.category === item}
                   onChange={(e) =>
                     setFilterState({
                       ...filterState,
@@ -35,7 +37,7 @@ const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
       <main>
         <h1 className='my-4 text-primary font-semibold'>Colors</h1>
         <div className='flex flex-col gap-1 justify-center '>
-          {filters.colors.map((color) => {
+          {filters?.colors?.map((color) => {
             return (
               <label
                 key={color}
@@ -45,7 +47,7 @@ const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
                   type='radio'
                   name='color'
                   id={color}
-                  checked={filterState.color === color}
+                  checked={filterState?.color === color}
                   value={color}
                   onChange={(e) => {
                     setFilterState({ ...filterState, color: e.target.value });
