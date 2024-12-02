@@ -1,6 +1,6 @@
 const ShopSidebar = ({ filters, filterState, setFilterState, clearFilter }) => {
-  console.log(filters);
-  console.log('filterState', filterState);
+  // console.log(filters);
+  // console.log('filterState', filterState);
   return (
     <section>
       <h1 className='text-2xl font-semibold '>Filters</h1>

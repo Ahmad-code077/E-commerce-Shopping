@@ -41,7 +41,7 @@ const Login = () => {
         const response = await loginUser(payLoad).unwrap();
         toast.success(response?.message);
         const { user } = response;
-        console.log(user);
+        // console.log(user);
         dispatch(setUser({ user }));
         navigate('/');
       } catch (error) {

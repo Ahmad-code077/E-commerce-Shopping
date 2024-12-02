@@ -7,7 +7,7 @@ const SeeUserProfile = () => {
     localStorage.getItem('user')
   );
   const handleDeleteProfile = () => {
-    console.log('delete');
+    // console.log('delete');
   };
 
   return (
