@@ -1,13 +1,30 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDeleteUserMutation } from '../../Redux/Features/auth/authapi';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../Redux/Features/auth/authSlice';
 
 const SeeUserProfile = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const { username, email, role, profession, bio } = JSON.parse(
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
+  const { username, email, role, profession, bio, id } = JSON.parse(
     localStorage.getItem('user')
   );
-  const handleDeleteProfile = () => {
-    // console.log('delete');
+
+  const handleDeleteProfile = async () => {
+    try {
+      const res = await deleteUser(id).unwrap();
+      toast.success(res?.message);
+      dispatch(logout());
+      console.log(res);
+      navigate('/');
+    } catch (error) {
+      toast.error(error?.data?.message);
+      console.log(error);
+    }
   };
 
   return (
@@ -53,13 +70,11 @@ const SeeUserProfile = () => {
         >
           <span className='button-content text-white'>Change Password </span>
         </Link>
-        <button className='animated-button bg-primary-dark  px-4 py-2'>
-          <span
-            className='button-content text-white'
-            onClick={() => setConfirmDelete(true)}
-          >
-            Delete
-          </span>
+        <button
+          className='animated-button bg-primary-dark  px-4 py-2'
+          onClick={() => setConfirmDelete(true)}
+        >
+          <span className='button-content text-white'>Delete</span>
         </button>
       </div>
       {confirmDelete && (

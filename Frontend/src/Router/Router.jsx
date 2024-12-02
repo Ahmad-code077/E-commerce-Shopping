@@ -89,7 +89,7 @@ const route = createBrowserRouter([
         ),
       },
       {
-        path: 'User',
+        path: 'user',
         element: <UserDashboard />,
       },
       {

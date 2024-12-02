@@ -10,7 +10,7 @@ import Trending from './Shops/Trending';
 
 const Home = () => {
   return (
-    <div className=''>
+    <div>
       <Banner />
       <Categories />
       <Cards />
