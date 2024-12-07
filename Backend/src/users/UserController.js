@@ -165,6 +165,49 @@ const updateUserProfile = async (req, res, next) => {
     return next(new ErrorHandler('Error while updating profile.', 500));
   }
 };
+// Update password controller
+const updatePassword = async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    // Validate input
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return next(new ErrorHandler('All fields are required', 400));
+    }
+    if (newPassword !== confirmPassword) {
+      return next(
+        new ErrorHandler('New Password and Confirm Password do not match', 400)
+      );
+    }
+
+    // Find the user by ID
+    const user = await User.findById(req.userId).select('+password');
+    if (!user) {
+      return next(new ErrorHandler('User not found', 404));
+    }
+
+    // Verify current password
+    const isPasswordMatch = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+    if (!isPasswordMatch) {
+      return next(new ErrorHandler('Current password is incorrect', 401));
+    }
+
+    // Hash new password
+    user.password = newPassword; // Assign plain text
+    await user.save(); // Let the pre-save hook hash it, if applicable
+
+    res.status(200).json({
+      success: true,
+      message: 'Password updated successfully!',
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
 
 module.exports = {
   register,
@@ -174,4 +217,5 @@ module.exports = {
   getAllUsers,
   updateUserRole,
   updateUserProfile,
+  updatePassword,
 };

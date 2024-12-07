@@ -9,14 +9,15 @@ const SeeUserProfile = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [deleteUser, { isLoading }] = useDeleteUserMutation();
-  const { username, email, role, profession, bio, id } = JSON.parse(
+  const [deleteUser] = useDeleteUserMutation();
+
+  const { username, email, role, profession, bio, _id } = JSON.parse(
     localStorage.getItem('user')
   );
 
   const handleDeleteProfile = async () => {
     try {
-      const res = await deleteUser(id).unwrap();
+      const res = await deleteUser(_id).unwrap();
       toast.success(res?.message);
       dispatch(logout());
       console.log(res);
@@ -28,7 +29,7 @@ const SeeUserProfile = () => {
   };
 
   return (
-    <div className='max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200'>
+    <div className='max-w-md mx-auto  shadow-lg rounded-lg overflow-hidden border border-gray-200'>
       <div className='p-6'>
         <h2 className='text-2xl font-bold text-gray-800'>User Profile</h2>
         <p className='text-gray-600 mt-2'>
@@ -59,13 +60,13 @@ const SeeUserProfile = () => {
       </div>
       <div className='my-12 flex items-center justify-between'>
         <Link
-          to={'/update-profile'}
+          to={'/dashboard/update-profile'}
           className='px-4 py-2 animated-button bg-primary '
         >
           <span className='button-content text-white '>Update </span>
         </Link>
         <Link
-          to={'/update-profile'}
+          to={'/dashboard/update-password'}
           className='px-4 py-2 animated-button bg-primary '
         >
           <span className='button-content text-white'>Change Password </span>

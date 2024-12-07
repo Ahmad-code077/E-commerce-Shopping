@@ -50,9 +50,9 @@ const Cards = () => {
                 <h2 className='text-2xl font-bold text-darkCharcoal my-2 group-hover:scale-110 transition-all duration-300'>
                   {title}
                 </h2>
-                <a href='#' className='underline'>
+                <Link to={'/shop'} className='underline'>
                   Discover more
-                </a>
+                </Link>
               </div>
             </div>
           );

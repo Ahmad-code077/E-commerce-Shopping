@@ -20,12 +20,14 @@ export { default as AdminDashboard } from './UserComponent/AdminDashboard';
 export { default as ManageProduct } from './UserComponent/ManageProduct';
 export { default as ManageOrders } from './UserComponent/ManageOrders';
 export { default as AddNewProduct } from './UserComponent/AddNewProduct';
-export { default as UserProfile } from './UserComponent/UserProfile';
 export { default as UserPayment } from './UserComponent/UserPayment';
 export { default as UserOrders } from './UserComponent/UserOrders';
 export { default as UserSidebar } from './UserComponent/UserSidebar';
 export { default as UserDashboard } from './UserComponent/UserDashboard';
 export { default as SeeUserProfile } from './UserComponent/SeeUserProfile';
+export { default as UpdateProfile } from './UserComponent/UpdateProfie';
+export { default as UpdatePassword } from './UserComponent/UpdatePassword';
+export { default as ComingSoon } from './CommingSoon';
 
 export { default as AutenticateUser } from './AutenticateUser';
 export { default as DashboardChart } from './Charts/DashboardChart';

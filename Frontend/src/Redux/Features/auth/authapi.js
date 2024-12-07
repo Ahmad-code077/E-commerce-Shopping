@@ -58,9 +58,17 @@ const authApi = createApi({
         body: profileData,
       }),
     }),
-    getMyProfile: builder.query({
-      query: () => ({
-        url: '/me',
+    // getMyProfile: builder.query({
+    //   query: () => ({
+    //     url: '/me',
+    //   }),
+    // }),
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: '/update-password',
+        method: 'PATCH',
+        body: data,
+        credentials: 'include',
       }),
     }),
   }),
@@ -75,5 +83,6 @@ export const {
   useUpdateUserRoleMutation,
   useEditProfileMutation,
   useGetMyProfileQuery,
+  useUpdatePasswordMutation,
 } = authApi;
 export default authApi;

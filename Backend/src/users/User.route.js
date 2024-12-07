@@ -11,6 +11,7 @@ const {
   getAllUsers,
   updateUserRole,
   updateUserProfile,
+  updatePassword,
 } = require('./UserController');
 const verifyAdmin = require('../middleware/verifyAdmin');
 
@@ -26,13 +27,19 @@ router.post('/logout', verifyToken, logout);
 // Delete user
 router.delete('/delete/:id', verifyToken, deleteUser);
 
+// Update user profile
+router.patch('/update-profile', verifyToken, updateUserProfile);
+
+// Update Password
+
+router.patch('/update-password', verifyToken, updatePassword);
+//  ******************** admin routes ********************
+
 // Get all users
 router.get('/getusers', verifyAdmin, getAllUsers);
 
 // Update user role
-router.put('/update/:id', updateUserRole);
 
-// Update user profile
-router.patch('/update-profile', updateUserProfile);
+router.put('/update/:id', verifyAdmin, updateUserRole);
 
 module.exports = router;

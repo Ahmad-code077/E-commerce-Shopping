@@ -48,17 +48,18 @@ const Navbar = () => {
       navigate('/');
       toast.success('User Logout successfully');
     } catch (error) {
-      toast.error(error?.message);
+      console.log(error);
+      toast.error(error?.data?.message);
     }
   };
   return (
-    <nav className='bg-white border-gray-200 dark:bg-secondary'>
+    <nav className='bg-white border-gray-200 dark:bg-primary'>
       <div className='max-w-6xl  px-4 lg:px-12  flex flex-wrap items-center justify-between mx-auto p-4'>
         <Link
           to='/'
           className='flex items-center space-x-3 rtl:space-x-reverse'
         >
-          <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white hover:text-darkCharcoal'>
+          <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white hover:text-boldColor'>
             Ahmad
           </span>
         </Link>
@@ -93,7 +94,7 @@ const Navbar = () => {
             <li>
               <Link
                 to='/'
-                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white  hover:text-darkCharcoal'
+                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white  hover:text-boldColor'
               >
                 Home
               </Link>
@@ -101,7 +102,7 @@ const Navbar = () => {
             <li>
               <Link
                 to='/shop'
-                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white hover:text-darkCharcoal '
+                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white hover:text-boldColor '
               >
                 Shop
               </Link>
@@ -109,7 +110,7 @@ const Navbar = () => {
             <li>
               <Link
                 to='/pages'
-                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white hover:text-darkCharcoal'
+                className='block py-2 px-3 rounded  md:hover:bg-transparent text-white hover:text-boldColor'
               >
                 About
               </Link>
@@ -118,7 +119,7 @@ const Navbar = () => {
               <Link
                 to='/contact'
                 className='block py-2 px-3 rounded  md:hover:bg-transparent text-white 
-                hover:text-darkCharcoal'
+                hover:text-boldColor'
               >
                 Contact
               </Link>
@@ -128,14 +129,14 @@ const Navbar = () => {
               <li>
                 <Link
                   to='/search'
-                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
+                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-boldColor'
                 >
                   <FaSearch /> <span>Search</span>
                 </Link>
               </li>
               <li>
                 <div
-                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal relative cursor-pointer'
+                  className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-boldColor relative cursor-pointer'
                   onClick={handleCart}
                 >
                   <FaCartPlus /> <span>Cart</span>
@@ -175,7 +176,7 @@ const Navbar = () => {
                 ) : (
                   <Link
                     to='/login'
-                    className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-darkCharcoal'
+                    className=' py-2 px-3 text-gray-900 rounded  md:hover:bg-transparent dark:text-white md:dark:hover:bg-transparent flex items-center gap-4 hover:text-boldColor'
                   >
                     <FaUser /> <span>Login</span>
                   </Link>
@@ -185,12 +186,12 @@ const Navbar = () => {
           </ul>
         </div>
         <div className='text-white font-semibold  gap-4 text-2xl hidden md:flex '>
-          <Link to={'/search'} className='hover:text-darkCharcoal'>
+          <Link to={'/search'} className='hover:text-boldColor'>
             {' '}
             <FaSearch />
           </Link>
           <div
-            className='hover:text-darkCharcoal relative cursor-pointer'
+            className='hover:text-boldColor relative cursor-pointer'
             onClick={handleCart}
           >
             <FaCartPlus />
@@ -226,7 +227,7 @@ const Navbar = () => {
               )}
             </>
           ) : (
-            <Link to={'/login'} className='hover:text-darkCharcoal'>
+            <Link to={'/login'} className='hover:text-boldColor'>
               <FaUser />
             </Link>
           )}

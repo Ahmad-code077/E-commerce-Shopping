@@ -18,7 +18,7 @@ const SingleShopPage = () => {
   if (isLoading) return <Loading />;
   if (isError) return <p>Error on single Page</p>;
 
-  const singleProduct = data?.products || {};
+  const singleProduct = data?.product || {};
 
   const { name, price, category, color, oldPrice, image, description, rating } =
     singleProduct;

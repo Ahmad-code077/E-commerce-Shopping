@@ -29,7 +29,7 @@ const LazyImage = ({ src, alt }) => {
   return (
     <img
       ref={imgRef}
-      src={isVisible ? src : 'placeholder.jpg'} // Show placeholder until loaded
+      src={isVisible ? src : 'placeholder.jpg'}
       alt={alt}
       className='w-full h-48 object-cover'
     />
