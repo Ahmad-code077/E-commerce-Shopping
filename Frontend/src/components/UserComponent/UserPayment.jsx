@@ -1,4 +1,10 @@
+import ComingSoon from '../CommingSoon';
+
 const UserPayment = () => {
-  return <div>UserPayment</div>;
+  return (
+    <div>
+      <ComingSoon />
+    </div>
+  );
 };
 export default UserPayment;

@@ -22,8 +22,9 @@ import {
   UserDashboard,
   UserOrders,
   UserPayment,
-  UserProfile,
+  UpdateProfile,
   SeeUserProfile,
+  UpdatePassword,
 } from '../components';
 import AuthenticateUser from '../components/AutenticateUser';
 
@@ -93,6 +94,14 @@ const route = createBrowserRouter([
         element: <UserDashboard />,
       },
       {
+        path: 'update-profile',
+        element: <UpdateProfile />,
+      },
+      {
+        path: 'update-password',
+        element: <UpdatePassword />,
+      },
+      {
         path: 'manage-product', // Admin Route
         element: (
           <AuthenticateUser>
@@ -117,8 +126,7 @@ const route = createBrowserRouter([
         ),
       },
       {
-        path: 'profile', // User Profile
-        // element: <UserProfile />,
+        path: 'profile',
         element: <SeeUserProfile />,
       },
       {
