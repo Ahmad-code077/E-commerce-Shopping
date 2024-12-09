@@ -5,12 +5,20 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const error = require('./src/ErrorCatchingFiles/ErrorMiddleWare.js');
-
+const { v2 } = require('cloudinary');
 const port = process.env.PORT || 5000;
+const fileUpload = require('express-fileupload');
 
+v2.config({
+  cloud_name: process.env.Cloudinay_Cloud_Name,
+  api_key: process.env.Cloudinay_Api_Key,
+  api_secret: process.env.Cloudinay_Api_Secret_Key,
+});
 // Middleware
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ limit: '25mb' }));
+app.use(fileUpload({ useTempFiles: true }));
+
 app.use(cookieParser());
 
 app.use(

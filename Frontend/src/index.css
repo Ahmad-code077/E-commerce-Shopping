@@ -140,3 +140,8 @@
 .animated-button:hover::before {
   transform: scaleX(1);
 }
+
+::selection {
+  background-color: #ffcc00; /* Bright Yellow */
+  color: #002366; /* Dark Blue */
+}

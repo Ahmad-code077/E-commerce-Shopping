@@ -2,43 +2,72 @@
 const Product = require('../Products/Product.modal');
 const Reviews = require('../reviews/Reviews.modal');
 const mongoose = require('mongoose');
+const ErrorHandler = require('../ErrorCatchingFiles/ErrorHandler');
+const { v2 } = require('cloudinary');
 
-const createProduct = async (req, res) => {
+const createProduct = async (req, res, next) => {
   try {
-    const { name, price, image } = req.body;
+    console.log('Incoming body:', req.body);
+    console.log('Incoming files:', req.files);
 
-    if (!name || !price || !image) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide all required fields',
-      });
+    if (!req.files?.image) {
+      return next(new ErrorHandler('Image file is missing', 400));
+    }
+    const { name, price, category, description, color } = req.body;
+    const file = req.files.image;
+    const uploadResult = await v2.uploader.upload(file.tempFilePath, {
+      folder: 'product_image', // Change folder name as required
+    });
+    console.log('Incoming files:', req.files);
+
+    // Basic validation for required fields
+    if (
+      !name ||
+      !price ||
+      !category ||
+      !description ||
+      !color ||
+      !req.files?.image
+    ) {
+      return next(new ErrorHandler('Please provide all required fields', 400));
     }
 
-    const newProduct = new Product(req.body);
+    // Upload the image to Cloudinary
+
+    // Create a new product using the data from the request body
+    const newProduct = new Product({
+      name,
+      price,
+      image: uploadResult.secure_url, // Save the secure URL from Cloudinary
+      category,
+      description,
+      color,
+    });
+
+    // Save the product to the database
     const savedProduct = await newProduct.save();
 
-    const review = await Reviews.find({ productId: savedProduct._id });
-    if (review.length > 0) {
-      const totalReviews = review.reduce((acc, curr) => acc + curr.rating, 0);
-      const averageRating = totalReviews / review.length;
+    // Calculate and update the rating if reviews exist
+    const reviews = await Reviews.find({ productId: savedProduct._id });
+    if (reviews.length > 0) {
+      const totalReviews = reviews.reduce((acc, curr) => acc + curr.rating, 0);
+      const averageRating = totalReviews / reviews.length;
       savedProduct.rating = averageRating;
       await savedProduct.save();
     }
 
+    // Respond with the newly created product data
     res.status(201).json({
       success: true,
       data: savedProduct,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error while creating product',
-      error: error.message,
-    });
+    console.error('Error creating product:', error);
+    return next(new ErrorHandler('Error while creating product', 500));
   }
 };
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
   try {
     const {
       category,
@@ -72,22 +101,18 @@ const getProducts = async (req, res) => {
 
     res.status(200).send({ products, totalPages, totalProducts });
   } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).send({ message: 'Error fetching products', error });
+    return next(new ErrorHandler('Error fetching products', 500));
   }
 };
 
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await Product.findById(productId).populate(
       'author',
       'username email'
     );
-    if (!product)
-      return res
-        .status(400)
-        .json({ success: false, message: 'Product not found' });
+    if (!product) return next(new ErrorHandler('Product not found', 400));
 
     const review = await Reviews.find({ productId }).populate(
       'userId',
@@ -95,13 +120,11 @@ const getProductById = async (req, res) => {
     );
     res.status(200).json({ success: true, product, review });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: 'Error fetching product', error });
+    return next(new ErrorHandler('Error fetching product', 500));
   }
 };
 
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
   try {
     const paramId = req.params.id;
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -111,9 +134,7 @@ const updateProduct = async (req, res) => {
     );
 
     if (!updatedProduct)
-      return res
-        .status(400)
-        .json({ success: false, message: 'Product not found' });
+      return next(new ErrorHandler('Product not found', 400));
 
     res.status(200).json({
       success: true,
@@ -121,46 +142,36 @@ const updateProduct = async (req, res) => {
       product: updatedProduct,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error while updating product',
-      error: error.message,
-    });
+    return next(new ErrorHandler('Error while updating product', 500));
   }
 };
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     const deletedProduct = await Product.findByIdAndDelete(id);
 
     if (!deletedProduct)
-      return res
-        .status(400)
-        .json({ success: false, message: 'Product not found' });
+      return next(new ErrorHandler('Product not found', 400));
 
     await Reviews.deleteMany({ productId: id });
     res
       .status(200)
       .json({ success: true, message: 'Product deleted successfully' });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error while deleting product',
-      error: error.message,
-    });
+    return next(new ErrorHandler('Error while deleting product', 500));
   }
 };
 
-const getRelatedProducts = async (req, res) => {
+const getRelatedProducts = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).send({ message: 'Invalid product ID format' });
+      return next(new ErrorHandler('Invalid product ID format', 400));
 
     const product = await Product.findById(id);
-    if (!product) return res.status(404).send({ message: 'Product not found' });
+    if (!product) return next(new ErrorHandler('Product not found', 404));
 
     const allProductsInCategory = await Product.find({
       category: product.category,
@@ -188,11 +199,7 @@ const getRelatedProducts = async (req, res) => {
 
     res.status(200).send({ success: true, relatedProducts });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error while fetching related products',
-      error: error.message,
-    });
+    return next(new ErrorHandler('Error while fetching related products', 500));
   }
 };
 
