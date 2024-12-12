@@ -6,9 +6,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setUser } from '../../Redux/Features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 const UpdateProfile = () => {
   const { user } = useSelector((state) => state.auth);
   // console.log(user);
+  const navigate = useNavigate();
   const { _id, username, email, bio, profession } = user;
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState({
@@ -27,6 +29,7 @@ const UpdateProfile = () => {
       toast.success('Profile updated successfully!');
       console.log(res.user);
       dispatch(setUser({ user: res?.user }));
+      navigate(-1);
     } catch (err) {
       console.error('Failed to update profile:', err);
       toast.error(err?.data?.message);

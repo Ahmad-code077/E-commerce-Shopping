@@ -9,21 +9,14 @@ const productApi = createApi({
   tagTypes: ['Products'],
   endpoints: (builder) => ({
     fetchAllProducts: builder.query({
-      query: ({
-        category,
-        color,
-        minPrice,
-        maxPrice,
-        page = 1,
-        limit = 10,
-      }) => {
+      query: ({ category, color, minPrice, maxPrice, page = 1, limit }) => {
         const queryParam = new URLSearchParams({
           category: category || '',
           color: color || '',
           minPrice: minPrice || 0,
           maxPrice: maxPrice || '',
           page: page.toString(),
-          limit: limit.toString(),
+          limit: limit?.toString(),
         });
         // console.log(`/?${queryParam}`);
         return `/?${queryParam}`;
@@ -39,7 +32,7 @@ const productApi = createApi({
     AddProduct: builder.mutation({
       query: (newProduct) => ({
         url: '/create-product',
-        method: 'Post',
+        method: 'POST',
         credentials: 'include',
         body: newProduct,
       }),

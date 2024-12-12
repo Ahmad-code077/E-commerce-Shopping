@@ -16,7 +16,7 @@ const Dashboard = () => {
         onClick={() => dispatch(setIsOpen(!isOpen))}
       />
       <UserSidebar />
-      <div className='w-[80%]'>
+      <div className='w-full lg:w-[80%]'>
         <Outlet />
       </div>
     </main>
