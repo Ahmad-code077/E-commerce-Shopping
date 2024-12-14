@@ -8,14 +8,18 @@ import Loading from '../components/Loader';
 const SearchProduct = () => {
   const [search, setSearch] = useState('');
   const [filtered, setFiltered] = useState([]);
+  const [visibleProducts, setVisibleProducts] = useState(10); // Initial number of visible products
   const { data, isLoading, isError } = useFetchAllProductsQuery({});
 
+  // Handle the search logic
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!search) {
-      setFiltered(data?.products);
+      setFiltered(data?.products || []); // If no search term, show all products
       return;
     }
+
     const query = search.toLowerCase();
     const filter = data?.products?.filter(
       (item) =>
@@ -26,11 +30,21 @@ const SearchProduct = () => {
     setFiltered(filter);
   };
 
+  // Effect hook to set initial products
   useEffect(() => {
-    if (data) setFiltered(data.products);
+    if (data) setFiltered(data.products); // Set all products when data is fetched
   }, [data]);
 
+  // Pagination logic to load more products
+  const handleLoadMore = () => {
+    setVisibleProducts((prev) => prev + 10); // Show 10 more products on each click
+  };
+
   if (isError) return <ErrorProduct />;
+  // console.log('Filtered Data:', filtered);
+
+  // Get the products to display based on pagination
+  const productsToDisplay = filtered.slice(0, visibleProducts);
 
   return (
     <section>
@@ -43,6 +57,7 @@ const SearchProduct = () => {
           accessories. Elevate your style today!
         </p>
       </main>
+
       <form onSubmit={handleSubmit} className='w-full flex gap-2 my-12'>
         <input
           type='text'
@@ -55,9 +70,10 @@ const SearchProduct = () => {
           Search
         </button>
       </form>
+
       {isLoading && <Loading />}
-      {filtered?.length > 0 ? (
-        <Products product={filtered || []} />
+      {productsToDisplay?.length > 0 ? (
+        <Products product={productsToDisplay} />
       ) : (
         <div className='flex flex-col items-center mt-12'>
           <FaSearch className='text-6xl text-gray-400 mb-4' />
@@ -70,11 +86,23 @@ const SearchProduct = () => {
           <button
             className='mt-4 bg-primary text-white px-6 py-2 rounded-md hover:bg-primary-dark transition'
             onClick={() => {
-              setFiltered(data?.products);
+              setFiltered(data?.products || []);
               setSearch('');
             }}
           >
             Reset Search
+          </button>
+        </div>
+      )}
+
+      {/* Load More Button */}
+      {filtered.length > visibleProducts && (
+        <div className='flex justify-center mt-6'>
+          <button
+            onClick={handleLoadMore}
+            className='bg-primary text-white px-6 py-2 rounded-md hover:bg-primary-dark transition'
+          >
+            Load More
           </button>
         </div>
       )}
