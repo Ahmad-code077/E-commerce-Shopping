@@ -7,8 +7,8 @@ const { v2 } = require('cloudinary');
 
 const createProduct = async (req, res, next) => {
   try {
-    console.log('Incoming body:', req.body);
-    console.log('Incoming files:', req.files);
+    // console.log('Incoming body:', req.body);
+    // console.log('Incoming files:', req.files);
 
     if (!req.files?.image) {
       return next(new ErrorHandler('Image file is missing', 400));
@@ -60,6 +60,7 @@ const createProduct = async (req, res, next) => {
     res.status(201).json({
       success: true,
       data: savedProduct,
+      message: 'Product Added Successfully',
     });
   } catch (error) {
     console.error('Error creating product:', error);
@@ -149,6 +150,7 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
+    console.log(id);
     const deletedProduct = await Product.findByIdAndDelete(id);
 
     if (!deletedProduct)

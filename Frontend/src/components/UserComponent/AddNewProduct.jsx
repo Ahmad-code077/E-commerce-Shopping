@@ -63,7 +63,7 @@ const AddNewProduct = () => {
       // Send the data to the API using addProduct mutation
       const res = await addProduct(formDataToSend).unwrap();
       console.log(res);
-      toast.success(res?.data?.message);
+      toast.success(res?.message);
     } catch (error) {
       console.log(error);
       toast.error(error);

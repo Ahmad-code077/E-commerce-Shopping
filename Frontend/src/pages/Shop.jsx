@@ -63,6 +63,7 @@ const Shop = () => {
       setCurrentPage(pageChange);
     }
   };
+  console.log('products', products);
 
   return (
     <section>
@@ -87,10 +88,10 @@ const Shop = () => {
         </aside>
         <main className='w-[60%] sm:w-full '>
           <h1 className='mb-4 font-semibold text-lg '>
-            Showing {products.length > 0 && startProduct} to {endProduct} of{' '}
-            {totalProducts}
+            Showing {(products.length > 0 && startProduct) || 0} to {endProduct}{' '}
+            of {totalProducts}
           </h1>
-          {endProduct < 1 && (
+          {products?.length <= 0 && (
             <div className='  sm:text-center flex flex-col my-auto gap-6 '>
               <h1 className=' text-primary  font-extrabold sm:text-5xl'>
                 Oops

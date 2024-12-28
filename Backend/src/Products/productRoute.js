@@ -16,8 +16,10 @@ const router = express.Router();
 router.post('/create-product', createProduct);
 router.get('/', getProducts);
 router.get('/:id', getProductById);
-router.patch('/update-product/:id', verifyToken, verifyAdmin, updateProduct);
-router.delete('/delete-product/:id', verifyAdmin, deleteProduct);
+//  ******************** admin routes ********************
+
 router.get('/related/:id', getRelatedProducts);
+router.patch('/update-product/:id', verifyToken, verifyAdmin, updateProduct);
+router.delete('/delete-product/:id', verifyToken, verifyAdmin, deleteProduct);
 
 module.exports = router;
