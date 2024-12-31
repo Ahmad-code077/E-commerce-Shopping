@@ -105,7 +105,7 @@ const route = createBrowserRouter([
         path: 'manage-product', // Admin Route
         element: (
           <AuthenticateUser>
-            <ManageProduct />,
+            <ManageProduct />
           </AuthenticateUser>
         ),
       },
@@ -113,7 +113,7 @@ const route = createBrowserRouter([
         path: 'manage-orders', // Admin Route
         element: (
           <AuthenticateUser>
-            <ManageOrders />,
+            <ManageOrders />
           </AuthenticateUser>
         ),
       },
@@ -121,7 +121,7 @@ const route = createBrowserRouter([
         path: 'add-new-product', // Admin Route
         element: (
           <AuthenticateUser>
-            <AddNewProduct />,
+            <AddNewProduct />
           </AuthenticateUser>
         ),
       },

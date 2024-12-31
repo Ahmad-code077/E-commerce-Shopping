@@ -7,9 +7,6 @@ const { v2 } = require('cloudinary');
 
 const createProduct = async (req, res, next) => {
   try {
-    // console.log('Incoming body:', req.body);
-    // console.log('Incoming files:', req.files);
-
     if (!req.files?.image) {
       return next(new ErrorHandler('Image file is missing', 400));
     }

@@ -27,10 +27,13 @@ const ManageProduct = () => {
   // Modal state
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [productCount, setProductCount] = useState(8);
+  const allProducts = products?.products;
+  const paginateProduct = products?.products?.slice(0, productCount);
+  console.log('all', allProducts);
 
   // Handle product deletion
   const handleDelete = async (productId) => {
-    console.log('deleekjasdfksd', productId);
     try {
       await deleteProduct(productId).unwrap();
       toast.success('Product deleted successfully');
@@ -66,18 +69,18 @@ const ManageProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {products?.products?.map((product) => (
+            {paginateProduct?.map((product) => (
               <tr key={product._id} className='border-b hover:bg-gray-50'>
-                <td className='px-4 py-2'>
+                <td className='px-4 py-2 w-32 h-32'>
                   <img
                     src={product.image || 'https://via.placeholder.com/150'}
                     alt={product.name}
-                    className='w-20 h-20 object-cover rounded'
+                    className=' object-cover w-full h-full rounded'
                   />
                 </td>
                 <td className='px-4 py-2'>{product.name}</td>
                 <td className='px-4 py-2'>${product.price}</td>
-                <td className='px-4 py-2 text-center'>
+                <td className='text-center whitespace-nowrap'>
                   <button
                     onClick={() => {
                       setProductToDelete(product._id);
@@ -100,6 +103,17 @@ const ManageProduct = () => {
         </table>
       </div>
 
+      {paginateProduct < allProducts && (
+        <div className='flex justify-center mt-4'>
+          {' '}
+          <button
+            className='bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition-colors '
+            onClick={() => setProductCount((prev) => prev + 8)}
+          >
+            Load more
+          </button>
+        </div>
+      )}
       {/* Delete Modal */}
       <DeleteModal
         isDeleteModalOpen={isDeleteModalOpen}
