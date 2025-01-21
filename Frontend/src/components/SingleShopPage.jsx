@@ -52,7 +52,7 @@ const SingleShopPage = () => {
         </div>
       </main>
       <main className='mt-16 flex flex-col sm:flex-row items-center justify-center sm:items-start sm:justify-normal sm:gap-x-16'>
-        <div className='w-full sm:w-2/4'>
+        <div className='w-full sm:w-2/4 h-[350px]'>
           <img
             src={image}
             alt={description}
