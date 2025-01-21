@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAddProductMutation } from '../../Redux/Features/products/productApi';
+import { useAddProductMutation } from '../../../Redux/Features/products/productApi';
 
 // All available colors for any category
 const allColors = ['black', 'blue', 'red', 'green', 'gold', 'silver', 'beige'];
@@ -47,7 +47,7 @@ const AddNewProduct = () => {
 
       // Append all fields to FormData except image
       for (const key in dataToSubmit) {
-        if (dataToSubmit.hasOwnProperty(key) && key !== 'image') {
+        if (dataToSubmit?.hasOwnProperty(key) && key !== 'image') {
           formDataToSend.append(key, dataToSubmit[key]);
         }
       }

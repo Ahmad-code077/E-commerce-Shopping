@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import img from '../assets/images/category-1.jpg';
+import img from '../assets/images/shoping.jpg';
 const Banner = () => {
   return (
     <div className='bg-gray-200 h-screen flex items-center justify-between px-8  relative overflow-hidden gap-2'>
       <div className='z-10 space-y-6 max-w-lg'>
-        <h1 className='text-4xl md:text-6xl font-bold text-primary-dark'>
+        <h1 className='text-4xl md:text-6xl font-bold text-white md:text-primary-dark'>
           Welcome to <span className='text-[#ffbe0b]'>Ladies Store</span>
         </h1>
-        <p className='text-lg md:text-xl text-primary-dark font-semibold'>
+        <p className='text-lg md:text-xl text-white md:text-primary-dark font-semibold'>
           Because men do not buy clothes online 😂
         </p>
         <Link

@@ -1,4 +1,4 @@
-import ComingSoon from '../CommingSoon';
+import ComingSoon from '../../CommingSoon';
 
 const UserOrders = () => {
   return (

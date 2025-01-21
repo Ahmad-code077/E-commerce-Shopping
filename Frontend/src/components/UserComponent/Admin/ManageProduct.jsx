@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {
   useFetchAllProductsQuery,
   useDeleteProductMutation,
-} from '../../Redux/Features/products/productApi';
-import DeleteModal from './DeleteModal'; // Import the modal
+} from '../../../Redux/Features/products/productApi';
+import DeleteModal from '../DeleteModal'; // Import the modal
 import { toast } from 'react-toastify';
 
 const ManageProduct = () => {

@@ -1,5 +1,5 @@
 // UserDashboard.js
-import DashboardChart from '../Charts/DashboardChart';
+import DashboardChart from '../../Charts/DashboardChart';
 
 const UserDashboard = () => {
   const data = [
