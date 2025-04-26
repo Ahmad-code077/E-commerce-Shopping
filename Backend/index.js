@@ -20,10 +20,11 @@ app.use(express.urlencoded({ limit: '25mb' }));
 app.use(fileUpload({ useTempFiles: true }));
 
 app.use(cookieParser());
+const allowedOrigins = process.env.CORS_ORIGIN.split(',');
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true,
   })
 );
