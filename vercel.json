@@ -6,10 +6,10 @@
       "use": "@vercel/vite"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/Frontend/dist/index.html"
+      "source": "/(.*)",
+      "destination": "/Frontend/dist/index.html"
     }
   ]
 }
