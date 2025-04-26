@@ -3,13 +3,13 @@
   "builds": [
     {
       "src": "Frontend/package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/vite"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/Frontend/index.html"
+      "dest": "/Frontend/dist/index.html"
     }
   ]
 }
