@@ -3,13 +3,34 @@
   "builds": [
     {
       "src": "Frontend/package.json",
-      "use": "@vercel/vite"
+      "use": "@vercel/vite",
+      "config": {
+        "outputDirectory": "dist"
+      }
     }
   ],
   "routes": [
     {
-      "src": "/.*",
+      "src": "/_next/static/(.*)",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      },
+      "dest": "/Frontend/_next/static/$1"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/Frontend/assets/$1"
+    },
+    {
+      "src": "/(.*)",
       "dest": "/Frontend/index.html"
+    },
+    {
+      "src": "/debug-path",
+      "dest": "/Frontend/index.html",
+      "headers": {
+        "Content-Type": "application/json"
+      }
     }
   ]
 }
