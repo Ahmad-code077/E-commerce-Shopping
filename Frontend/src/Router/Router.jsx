@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import {
+  About,
   Cart,
   Contact,
   Home,
   Login,
-  Page,
   Register,
   SearchProduct,
   Shop,
@@ -48,7 +48,7 @@ const route = createBrowserRouter([
       },
       {
         path: '/pages',
-        element: <Page />,
+        element: <About />,
       },
       {
         path: '/contact',
