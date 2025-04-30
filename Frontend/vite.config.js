@@ -9,6 +9,9 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      disableDotRule: true,
+    },
+    strict: true,
   },
 });
